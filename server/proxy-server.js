@@ -12,11 +12,17 @@ const TRIPADVISOR_API_URI = 'https://api.content.tripadvisor.com/api/v1/location
 
 app.get('/tripadvisor-api/search', async (req, res) => {
   try {
+    const searchParams = new URLSearchParams({
+      key: process.env.TRIPADVISOR_API_KEY,
+      searchQuery: req.query.searchString,
+      language: 'en'
+    }).toString();
+
     const tripAdvisorResponse = await fetch(
-      `${TRIPADVISOR_API_URI}/search?key=${process.env.TRIPADVISOR_API_KEY}&searchQuery=${req.query.searchString}&language=en`
+      `${TRIPADVISOR_API_URI}/search?${searchParams}`
     );
-    const data = await tripAdvisorResponse.json();
-    res.json(data);
+    const { data } = await tripAdvisorResponse.json();
+    res.json(data[0]);
   } catch (error) {
     console.error('Error occurred TripAdvisor API:', error);
     res.status(500).json({ error: 'Server error occurred' });
@@ -25,8 +31,14 @@ app.get('/tripadvisor-api/search', async (req, res) => {
 
 app.get('/tripadvisor-api/location-details', async (req, res) => {
   try {
+    const searchParams = new URLSearchParams({
+      key: process.env.TRIPADVISOR_API_KEY,
+      language: 'en',
+      currency: 'USD'
+    }).toString();
+
     const tripAdvisorResponse = await fetch(
-      `${TRIPADVISOR_API_URI}/location/${req.query.locationId}/details?key=${process.env.TRIPADVISOR_API_KEY}&language=en&currency=USD`
+      `${TRIPADVISOR_API_URI}/${req.query.locationId}/details?${searchParams}`
     );
     const data = await tripAdvisorResponse.json();
     res.json(data);

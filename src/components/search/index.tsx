@@ -1,21 +1,25 @@
 import { useRef } from 'react';
+import { callProxy } from '../../helpers/fetch.ts';
 
 const Search = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
-    console.log(inputRef.current?.value);
-    const url = `http://localhost:3000/tripadvisor-api/search?searchString=${inputRef.current?.value}`;
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-      },
-    };
+    if (!inputRef.current) {
+      return;
+    }
 
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => console.log(json))
+    callProxy('/tripadvisor-api/search', { searchString: inputRef.current?.value })
+      .then((res) => {
+        console.log(res);
+        getLocationDetails(res.location_id);
+      })
+      .catch((err) => console.error('error:' + err));
+  };
+
+  const getLocationDetails = (locationId: string) => {
+    callProxy('/tripadvisor-api/location-details', { locationId })
+      .then((res) => console.log(res))
       .catch((err) => console.error('error:' + err));
   };
 
