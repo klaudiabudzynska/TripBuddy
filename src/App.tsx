@@ -1,5 +1,21 @@
+import { useEffect } from 'react';
+
 function App() {
-  console.log(import.meta.env.VITE_TRIPADVISOR_API_KEY);
+  useEffect(() => {
+    const url = 'http://localhost:3000/tripadvisor-api';
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+      },
+    };
+
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((json) => console.log(json))
+      .catch((err) => console.error('error:' + err));
+  }, []);
+
   return <>Hello</>;
 }
 
