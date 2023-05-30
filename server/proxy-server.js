@@ -8,10 +8,25 @@ const app = express();
 app.use(cors());
 dotenv.config({ path: '../.env' });
 
-app.get('/tripadvisor-api', async (req, res) => {
+const TRIPADVISOR_API_URI = 'https://api.content.tripadvisor.com/api/v1/location';
+
+app.get('/tripadvisor-api/search', async (req, res) => {
   try {
     const tripAdvisorResponse = await fetch(
-      `https://api.content.tripadvisor.com/api/v1/location/search?key=${process.env.TRIPADVISOR_API_KEY}&searchQuery=${req.query.searchString}&language=en`
+      `${TRIPADVISOR_API_URI}/search?key=${process.env.TRIPADVISOR_API_KEY}&searchQuery=${req.query.searchString}&language=en`
+    );
+    const data = await tripAdvisorResponse.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error occurred TripAdvisor API:', error);
+    res.status(500).json({ error: 'Server error occurred' });
+  }
+});
+
+app.get('/tripadvisor-api/location-details', async (req, res) => {
+  try {
+    const tripAdvisorResponse = await fetch(
+      `${TRIPADVISOR_API_URI}/location/${req.query.locationId}/details?key=${process.env.TRIPADVISOR_API_KEY}&language=en&currency=USD`
     );
     const data = await tripAdvisorResponse.json();
     res.json(data);

@@ -5,7 +5,7 @@ const Search = () => {
 
   const handleSearch = () => {
     console.log(inputRef.current?.value);
-    const url = `http://localhost:3000/tripadvisor-api?searchString=${inputRef.current?.value}`;
+    const url = `http://localhost:3000/tripadvisor-api/search?searchString=${inputRef.current?.value}`;
     const options = {
       method: 'GET',
       headers: {
