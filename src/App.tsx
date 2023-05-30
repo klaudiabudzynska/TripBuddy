@@ -1,22 +1,14 @@
-import { useEffect } from 'react';
+import Search from './components/Search';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
-  useEffect(() => {
-    const url = 'http://localhost:3000/tripadvisor-api';
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-      },
-    };
-
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => console.log(json))
-      .catch((err) => console.error('error:' + err));
-  }, []);
-
-  return <>Hello</>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Search />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
