@@ -1,7 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
+import LocationDetails from '../LocationDetails';
+import { LocationDetailsProps } from '../LocationDetails/typings.ts';
 
 const Search = () => {
+  const [locationDetails, setLocationDetails] = useState<LocationDetailsProps>({});
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
@@ -19,7 +22,10 @@ const Search = () => {
 
   const getLocationDetails = (locationId: string) => {
     callProxy('/tripadvisor-api/location-details', { locationId })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setLocationDetails(res);
+      })
       .catch((err) => console.error('error:' + err));
   };
 
@@ -27,6 +33,8 @@ const Search = () => {
     <>
       <input ref={inputRef} />
       <button onClick={handleSearch}>Search</button>
+
+      <LocationDetails {...locationDetails} />
     </>
   );
 };

@@ -1,7 +1,14 @@
-import Search from './components/search';
+import Search from './components/Search';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
-  return <Search />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Search />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
