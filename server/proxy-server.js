@@ -11,7 +11,7 @@ dotenv.config({ path: '../.env' });
 app.get('/tripadvisor-api', async (req, res) => {
   try {
     const tripAdvisorResponse = await fetch(
-      `https://api.content.tripadvisor.com/api/v1/location/search?key=${process.env.TRIPADVISOR_API_KEY}&searchQuery=Krak&language=en`
+      `https://api.content.tripadvisor.com/api/v1/location/search?key=${process.env.TRIPADVISOR_API_KEY}&searchQuery=${req.query.searchString}&language=en`
     );
     const data = await tripAdvisorResponse.json();
     res.json(data);
