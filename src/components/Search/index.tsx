@@ -13,7 +13,7 @@ enum Category {
 }
 
 const Search = () => {
-  const [locationDetails, setLocationDetails] = useState<LocationDetailsProps>({});
+  const [locationsDetails, setLocationsDetails] = useState<LocationDetailsProps[]>([]);
   const [category, setCategory] = useState<string>(Category.geos);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,25 +22,16 @@ const Search = () => {
       return;
     }
 
-    callProxy('/tripadvisor-api/search', { searchString: inputRef.current?.value })
+    callProxy('/tripadvisor-api/search', { searchString: inputRef.current?.value, category })
       .then((res) => {
         console.log(res);
-        getLocationDetails(res.location_id);
+        setLocationsDetails(res);
       })
       .catch((err) => console.error('error:' + err));
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
-  };
-
-  const getLocationDetails = (locationId: string) => {
-    callProxy('/tripadvisor-api/location-details', { locationId, category })
-      .then((res) => {
-        console.log(res);
-        setLocationDetails(res);
-      })
-      .catch((err) => console.error('error:' + err));
   };
 
   return (
@@ -58,7 +49,9 @@ const Search = () => {
           Search
         </button>
       </div>
-      <LocationDetails {...locationDetails} />
+      {locationsDetails.map((locationDetails, key) => (
+        <LocationDetails location_id={locationDetails.location_id} key={key} />
+      ))}
     </>
   );
 };

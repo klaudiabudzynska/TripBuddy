@@ -1,6 +1,10 @@
 .container {
+  background: #ededed;
   display: flex;
-  padding: 0 40px;
+  justify-content: space-between;
+  padding-left: 40px;
+  max-width: 800px;
+  margin: 0 auto 50px auto;
 }
 
 .text {
@@ -28,11 +32,11 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 9;
+  -webkit-line-clamp: 7;
   white-space: pre-wrap;
 }
 
 .details {
-  margin-right: 40px;
+  margin: 20px 20px 20px 40px;
   width: 60%;
 }

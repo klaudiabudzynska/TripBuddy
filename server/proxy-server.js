@@ -31,7 +31,7 @@ app.get('/tripadvisor-api/search', async (req, res) => {
       `${TRIPADVISOR_API_URI}/search?${searchParams}`
     );
     const { data } = await tripAdvisorResponse.json();
-    res.json(data[0]);
+    res.json(data);
   } catch (error) {
     console.error('Error occurred TripAdvisor API:', error);
     res.status(500).json({ error: 'Server error occurred' });

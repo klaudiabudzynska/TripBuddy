@@ -3,9 +3,10 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  width: 400px;
+  max-width: 300px;
+  width: fit-content;
 }
 
 .image {
-  margin: 5px;
+  object-fit: cover;
 }
