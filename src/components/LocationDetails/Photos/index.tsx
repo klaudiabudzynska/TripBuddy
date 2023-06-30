@@ -1,6 +1,6 @@
 import { LocationDetailPhoto, PhotosProps } from './typings.ts';
 import { callProxy } from '../../../helpers/fetch.ts';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
 
 const fetchPhotos = async (locationId: PhotosProps['locationId']) => {
   const res: { data: LocationDetailPhoto[] } = await callProxy('/tripadvisor-api/location-photos', {
@@ -11,13 +11,11 @@ const fetchPhotos = async (locationId: PhotosProps['locationId']) => {
 };
 
 const Photos = ({ locationId }: PhotosProps) => {
-  const { data, isLoading } = useQuery('photos', () => fetchPhotos(locationId));
+  const [data, setData] = useState<LocationDetailPhoto[]>();
 
-  if (isLoading) {
-    return null;
-  }
-
-  console.log(data);
+  useEffect(() => {
+    fetchPhotos(locationId).then((res) => setData(res));
+  }, [locationId]);
 
   return data ? (
     <>
