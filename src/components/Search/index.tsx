@@ -46,12 +46,14 @@ const Search = () => {
   return (
     <>
       <div className={styles.container}>
-        <input className={styles.input} ref={inputRef} />
-        <select className={classNames(styles.input, styles.select)} onChange={handleSelect}>
-          <option value={Category.hotel}>Hotel</option>
-          <option value={Category.attraction}>Attraction</option>
-          <option value={Category.restaurant}>Restaurant</option>
-        </select>
+        <>
+          <input className={styles.input} ref={inputRef} />
+          <select className={classNames(styles.input, styles.select)} onChange={handleSelect}>
+            <option value={Category.hotel}>Hotel</option>
+            <option value={Category.attraction}>Attraction</option>
+            <option value={Category.restaurant}>Restaurant</option>
+          </select>
+        </>
         <button className={classNames(styles.input, styles.button)} onClick={handleSearch}>
           Search
         </button>
