@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
 import LocationDetails from '../LocationDetails';
 import { LocationDetailsProps } from '../LocationDetails/typings.ts';
+import styles from './index.module.scss';
+import * as classNames from 'classnames';
 
 enum Category {
   hotel = 'hotels',
@@ -43,14 +45,17 @@ const Search = () => {
 
   return (
     <>
-      <input ref={inputRef} />
-      <button onClick={handleSearch}>Search</button>
-      <select onChange={handleSelect}>
-        <option value={Category.hotel}>Hotel</option>
-        <option value={Category.attraction}>Attraction</option>
-        <option value={Category.restaurant}>Restaurant</option>
-      </select>
-
+      <div className={styles.container}>
+        <input className={styles.input} ref={inputRef} />
+        <select className={classNames(styles.input, styles.select)} onChange={handleSelect}>
+          <option value={Category.hotel}>Hotel</option>
+          <option value={Category.attraction}>Attraction</option>
+          <option value={Category.restaurant}>Restaurant</option>
+        </select>
+        <button className={classNames(styles.input, styles.button)} onClick={handleSearch}>
+          Search
+        </button>
+      </div>
       <LocationDetails {...locationDetails} />
     </>
   );
