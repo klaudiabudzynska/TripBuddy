@@ -1,4 +1,4 @@
-export type LocationDetailsProps = {
+export type LocationDetailsType = {
   location_id?: string;
   name?: string;
   address_obj?: {

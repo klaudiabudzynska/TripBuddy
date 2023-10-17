@@ -1,12 +1,13 @@
-import { LocationDetailsProps } from './typings.ts';
+import { LocationDetailsType } from './typings.ts';
 import Photos from './Photos';
 import styles from './index.module.scss';
 import * as classNames from 'classnames';
 import { callProxy } from '../../helpers/fetch.ts';
 import { useEffect, useState } from 'react';
+import { getLocationDetailsLS, setLocationDetailsLS } from '../../helpers/cache.ts';
 
-const LocationDetails = (details: LocationDetailsProps) => {
-  const [locationDetails, setLocationDetails] = useState<LocationDetailsProps>({});
+const LocationDetails = (details: LocationDetailsType) => {
+  const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
 
   useEffect(() => {
     if (details.location_id) {
@@ -15,12 +16,16 @@ const LocationDetails = (details: LocationDetailsProps) => {
   }, [details]);
 
   const getLocationDetails = (locationId: string) => {
-    callProxy('/tripadvisor-api/location-details', { locationId: locationId })
-      .then((res) => {
-        console.log(res);
-        setLocationDetails(res);
-      })
-      .catch((err) => console.error('error:' + err));
+    if (!getLocationDetailsLS(locationId)) {
+      callProxy('/tripadvisor-api/location-details', { locationId: locationId })
+        .then((res) => {
+          setLocationDetails(res);
+          setLocationDetailsLS(locationId, res);
+        })
+        .catch((err) => console.error('error:' + err));
+    } else {
+      setLocationDetails(getLocationDetailsLS(locationId)?.data || {});
+    }
   };
 
   const { location_id, name, address_obj, description } = locationDetails;

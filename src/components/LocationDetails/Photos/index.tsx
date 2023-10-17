@@ -14,18 +14,13 @@ const fetchPhotos = async (locationId: PhotosProps['locationId']) => {
 const Photos = ({ locationId }: PhotosProps) => {
   const [data, setData] = useState<LocationDetailPhoto[]>();
 
-  console.log(locationId);
-
   useEffect(() => {
     fetchPhotos(locationId).then((res) => setData(res));
   }, [locationId]);
 
-  console.log(data);
-
   return data ? (
     <div className={styles.container}>
       {data.map((photo) => {
-        console.log(photo);
         const { url, width, height } = photo.images.small || {};
 
         return (

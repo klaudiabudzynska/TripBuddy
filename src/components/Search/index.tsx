@@ -1,54 +1,35 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
 import LocationDetails from '../LocationDetails';
-import { LocationDetailsProps } from '../LocationDetails/typings.ts';
+import { LocationDetailsType } from '../LocationDetails/typings.ts';
 import styles from './index.module.scss';
 import * as classNames from 'classnames';
 
-enum Category {
-  hotel = 'hotels',
-  attraction = 'attractions',
-  restaurant = 'restaurants',
-  geos = 'geos',
-}
-
 const Search = () => {
-  const [locationsDetails, setLocationsDetails] = useState<LocationDetailsProps[]>([]);
-  const [category, setCategory] = useState<string>(Category.geos);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [locationsDetails, setLocationsDetails] = useState<LocationDetailsType[]>([]);
+  const [locationInput, setLocationInput] = useState<string | undefined>();
 
-  const handleSearch = () => {
-    if (!inputRef.current) {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!locationInput || !locationInput.length) {
       return;
     }
 
-    callProxy('/tripadvisor-api/search', { searchString: inputRef.current?.value, category })
+    callProxy('/tripadvisor-api/search', { searchString: locationInput })
       .then((res) => {
-        console.log(res);
         setLocationsDetails(res);
       })
       .catch((err) => console.error('error:' + err));
   };
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-  };
-
   return (
     <>
-      <div className={styles.container}>
-        <>
-          <input className={styles.input} ref={inputRef} />
-          <select className={classNames(styles.input, styles.select)} onChange={handleSelect}>
-            <option value={Category.hotel}>Hotel</option>
-            <option value={Category.attraction}>Attraction</option>
-            <option value={Category.restaurant}>Restaurant</option>
-          </select>
-        </>
-        <button className={classNames(styles.input, styles.button)} onClick={handleSearch}>
+      <form className={styles.container} onSubmit={handleSearch}>
+        <input className={styles.input} onChange={(e) => setLocationInput(e.target.value)} />
+        <button type="submit" className={classNames(styles.input, styles.button)}>
           Search
         </button>
-      </div>
+      </form>
       {locationsDetails.map((locationDetails, key) => (
         <LocationDetails location_id={locationDetails.location_id} key={key} />
       ))}
