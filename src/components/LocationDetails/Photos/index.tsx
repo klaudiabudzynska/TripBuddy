@@ -2,6 +2,7 @@ import { LocationDetailPhoto, PhotosProps } from './typings.ts';
 import { callProxy } from '../../../helpers/fetch.ts';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
+import { getLocationPhotosLS, setLocationPhotosLS } from '../../../helpers/cache.ts';
 
 const fetchPhotos = async (locationId: PhotosProps['locationId']) => {
   const res: { data: LocationDetailPhoto[] } = await callProxy('/tripadvisor-api/location-photos', {
@@ -15,7 +16,14 @@ const Photos = ({ locationId }: PhotosProps) => {
   const [data, setData] = useState<LocationDetailPhoto[]>();
 
   useEffect(() => {
-    fetchPhotos(locationId).then((res) => setData(res));
+    if (locationId && !getLocationPhotosLS(locationId)) {
+      fetchPhotos(locationId).then((res) => {
+        setData(res);
+        setLocationPhotosLS(locationId, res);
+      });
+    } else {
+      setData(getLocationPhotosLS(locationId)?.data || []);
+    }
   }, [locationId]);
 
   return data ? (

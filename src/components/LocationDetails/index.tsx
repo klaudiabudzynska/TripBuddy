@@ -16,7 +16,7 @@ const LocationDetails = (details: LocationDetailsType) => {
   }, [details]);
 
   const getLocationDetails = (locationId: string) => {
-    if (!getLocationDetailsLS(locationId)) {
+    if (locationId && !getLocationDetailsLS(locationId)) {
       callProxy('/tripadvisor-api/location-details', { locationId: locationId })
         .then((res) => {
           setLocationDetails(res);
