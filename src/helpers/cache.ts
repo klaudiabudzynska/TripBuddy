@@ -43,26 +43,24 @@ export const setLocationPhotosLS = (locationId: string, data: LocationDetailPhot
   localStorage.setItem(LOCATION_PHOTOS_KEY, JSON.stringify(locationsPhotos));
 };
 
-export const getLocationsDetailsLS = (): LocationDetailField[] => {
-  return JSON.parse(localStorage.getItem(LOCATION_DETAILS_KEY) || '[]');
+const getLSItem = (key: string) => {
+  return JSON.parse(localStorage.getItem(key) || '[]');
 };
 
-export const getLocationsPhotosLS = (): LocationPhotoField[] => {
-  return JSON.parse(localStorage.getItem(LOCATION_PHOTOS_KEY) || '[]');
-};
+const getLSItemDetails = (key: string, locationId: string) => {
+  const itemDetails = getLSItem(key);
 
-export const getLocationDetailsLS = (locationId: string): LocationDetailField | undefined => {
-  const locationsDetails = getLocationsDetailsLS();
-
-  return locationsDetails.find((locationDetails: LocationDetailField) => {
-    return locationDetails.locationId === locationId;
+  return itemDetails.find((detail: LocationDetailField | LocationPhotoField) => {
+    return detail.locationId === locationId;
   });
 };
 
-export const getLocationPhotosLS = (locationId: string): LocationPhotoField | undefined => {
-  const locationsPhotos = getLocationsPhotosLS();
+export const getLocationsDetailsLS = (): LocationDetailField[] => getLSItem(LOCATION_DETAILS_KEY);
 
-  return locationsPhotos.find((locationPhotos: LocationPhotoField) => {
-    return locationPhotos.locationId === locationId;
-  });
-};
+export const getLocationsPhotosLS = (): LocationPhotoField[] => getLSItem(LOCATION_PHOTOS_KEY);
+
+export const getLocationDetailsLS = (locationId: string): LocationDetailField | undefined =>
+  getLSItemDetails(LOCATION_DETAILS_KEY, locationId);
+
+export const getLocationPhotosLS = (locationId: string): LocationPhotoField | undefined =>
+  getLSItemDetails(LOCATION_PHOTOS_KEY, locationId);
