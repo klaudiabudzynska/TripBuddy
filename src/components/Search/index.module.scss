@@ -3,18 +3,30 @@
 .container {
   align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin: 20px 0 50px;
-  width: 100%;
+  margin: 20px 10px 50px;
+
+  @media (min-width: $md-breakpoint) {
+    flex-direction: row;
+    margin: 20px 0 50px;
+    width: 100%;
+  }
 }
 
 .input {
   border: 2px $dark-color solid;
   border-radius: 5px;
   color: $dark-color;
-  font-size: 18px;
-  margin: 0 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
   padding: 10px 20px;
+  width: 100%;
+
+  @media (min-width: $md-breakpoint) {
+    margin: 0 10px;
+    width: 300px;
+  }
 }
 
 .select {
@@ -26,6 +38,10 @@
   border-color: $primary-color;
   color: $light-color;
   padding: 10px 30px;
+
+  @media (min-width: $md-breakpoint) {
+    width: initial;
+  }
 }
 
 .select, .button {

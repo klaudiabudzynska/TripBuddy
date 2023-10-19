@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 function Main() {
   return (
-    <div>
+    <div className={styles.container}>
       <nav className={styles.navigation}>
         <a className={styles.navigationItems} href="/">
           Home

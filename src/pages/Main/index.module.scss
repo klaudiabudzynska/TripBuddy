@@ -1,19 +1,27 @@
 @import "../../styles/variables";
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
 }
 
+.container {
+  width: 100%;
+}
+
 .navigation {
-    background: $primary-color;
-    font-family: $main-font;
-    padding: 20px 40px;
-    width: 100%;
+  background: $primary-color;
+  font-family: $main-font;
+  padding: 20px 40px;
+  width: 100%;
 }
 
 .navigationItems {
-    color: $light-color;
-    margin-right: 25px;
-    text-decoration: none;
+  color: $light-color;
+  margin-right: 25px;
+  text-decoration: none;
 }

@@ -3,7 +3,6 @@
 .container {
   border: 2px solid $secondary-color;
   border-radius: 15px;
-  //background: $light-color;
   display: flex;
   justify-content: space-between;
   max-width: 800px;
@@ -22,12 +21,11 @@
 }
 
 .location {
-  border-bottom: 1px solid $neutral-color;
-  color: $dark-color;
+  color: $neutral-color;
   display: block;
-  font-size: 11px;
-  margin: 10px 0 -5px;
-  padding-bottom: 5px;
+  font-size: 13px;
+  margin: 5px 0 10px;
+  padding-bottom: 3px;
   width: 100%;
 }
 
