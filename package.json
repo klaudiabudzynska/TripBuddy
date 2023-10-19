@@ -8,9 +8,11 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "proxy": "cd server && node proxy-server.js"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "cors": "^2.8.5",
     "dotenv": "^16.1.0",
     "eslint-config-react-app": "^7.0.1",
@@ -19,7 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
-    "sass": "^1.62.1"
+    "sass": "^1.63.6"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",

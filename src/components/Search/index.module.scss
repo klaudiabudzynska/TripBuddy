@@ -1,0 +1,31 @@
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 50px;
+  width: 100%;
+}
+
+.input {
+  border: 1px #aaa solid;
+  border-radius: 5px;
+  color: #1b1b1c;
+  margin: 0 10px;
+  outline: #4d4dd9;
+  padding: 10px 20px;
+}
+
+.select {
+  padding: 9px 20px;
+}
+
+.button {
+  background: #4d4dd9;
+  border-color: #4d4dd9;
+  color: #e6eff6;
+  padding: 10px 30px;
+}
+
+.select, .button {
+  cursor: pointer;
+}

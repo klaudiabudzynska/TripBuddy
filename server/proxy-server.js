@@ -31,7 +31,7 @@ app.get('/tripadvisor-api/search', async (req, res) => {
       `${TRIPADVISOR_API_URI}/search?${searchParams}`
     );
     const { data } = await tripAdvisorResponse.json();
-    res.json(data[0]);
+    res.json(data);
   } catch (error) {
     console.error('Error occurred TripAdvisor API:', error);
     res.status(500).json({ error: 'Server error occurred' });
@@ -65,7 +65,7 @@ app.get('/tripadvisor-api/location-photos', async (req, res) => {
       `${TRIPADVISOR_API_URI}/${req.query.locationId}/photos?${searchParams}`
     );
     const data = await tripAdvisorResponse.json();
-    res.json(data);
+    res.json({data: data.data.slice(0, 4)});
   } catch (error) {
     console.error('Error occurred TripAdvisor API:', error);
     res.status(500).json({ error: 'Server error occurred' });

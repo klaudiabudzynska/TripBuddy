@@ -1,0 +1,12 @@
+.container {
+  align-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  max-width: 300px;
+  width: fit-content;
+}
+
+.image {
+  object-fit: cover;
+}

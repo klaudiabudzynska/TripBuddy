@@ -1,0 +1,42 @@
+.container {
+  background: #ededed;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 40px;
+  max-width: 800px;
+  margin: 0 auto 50px auto;
+}
+
+.text {
+  font-family: "Poppins", sans-serif;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.location {
+  border-bottom: 1px solid #939397;
+  color: #1f1e1e;
+  display: block;
+  font-size: 11px;
+  margin: 10px 0 -5px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.description {
+  font-size: 14px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  white-space: pre-wrap;
+}
+
+.details {
+  margin: 20px 20px 20px 40px;
+  width: 60%;
+}

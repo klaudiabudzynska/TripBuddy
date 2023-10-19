@@ -1,40 +1,38 @@
-import { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
 import LocationDetails from '../LocationDetails';
-import { LocationDetailsProps } from '../LocationDetails/typings.ts';
+import { LocationDetailsType } from '../LocationDetails/typings.ts';
+import styles from './index.module.scss';
+import * as classNames from 'classnames';
 
 const Search = () => {
-  const [locationDetails, setLocationDetails] = useState<LocationDetailsProps>({});
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [locationsDetails, setLocationsDetails] = useState<LocationDetailsType[]>([]);
+  const [locationInput, setLocationInput] = useState<string | undefined>();
 
-  const handleSearch = () => {
-    if (!inputRef.current) {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!locationInput || !locationInput.length) {
       return;
     }
 
-    callProxy('/tripadvisor-api/search', { searchString: inputRef.current?.value })
+    callProxy('/tripadvisor-api/search', { searchString: locationInput })
       .then((res) => {
-        console.log(res);
-        getLocationDetails(res.location_id);
-      })
-      .catch((err) => console.error('error:' + err));
-  };
-
-  const getLocationDetails = (locationId: string) => {
-    callProxy('/tripadvisor-api/location-details', { locationId })
-      .then((res) => {
-        console.log(res);
-        setLocationDetails(res);
+        setLocationsDetails(res);
       })
       .catch((err) => console.error('error:' + err));
   };
 
   return (
     <>
-      <input ref={inputRef} />
-      <button onClick={handleSearch}>Search</button>
-
-      <LocationDetails {...locationDetails} />
+      <form className={styles.container} onSubmit={handleSearch}>
+        <input className={styles.input} onChange={(e) => setLocationInput(e.target.value)} />
+        <button type="submit" className={classNames(styles.input, styles.button)}>
+          Search
+        </button>
+      </form>
+      {locationsDetails.map((locationDetails, key) => (
+        <LocationDetails location_id={locationDetails.location_id} key={key} />
+      ))}
     </>
   );
 };
