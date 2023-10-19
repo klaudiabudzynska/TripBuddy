@@ -1,12 +1,28 @@
+@import "../../../styles/variables";
+
 .container {
   align-content: flex-start;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  max-width: 300px;
-  width: fit-content;
+  width: 100%;
+
+  @media (min-width: $md-breakpoint) {
+    max-width: 300px;
+  }
 }
 
 .image {
   object-fit: cover;
+  width: 50%;
+  height: 150px;
+
+  @media (min-width: $sm-breakpoint) {
+    height: 200px;
+  }
+
+  @media (min-width: $md-breakpoint) {
+    height: 150px;
+    width: 150px;
+  }
 }

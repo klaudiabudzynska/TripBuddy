@@ -4,10 +4,16 @@
   border: 2px solid $secondary-color;
   border-radius: 15px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   max-width: 800px;
-  margin: 0 auto 50px auto;
+  margin: 0 10px 50px 10px;
   overflow: hidden;
+
+  @media (min-width: $md-breakpoint) {
+    flex-direction: row;
+    margin: 0 auto 50px auto;
+  }
 }
 
 .text {
@@ -15,9 +21,13 @@
 }
 
 .title {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 600;
   margin: 0;
+  
+  @media (min-width: $sm-breakpoint) {
+    font-size: 30px;
+  }
 }
 
 .location {
@@ -34,11 +44,23 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
+  -webkit-line-clamp: 6;
   white-space: pre-wrap;
+
+  @media (min-width: $sm-breakpoint) {
+    -webkit-line-clamp: 4;
+  }
+
+  @media (min-width: $md-breakpoint) {
+    -webkit-line-clamp: 7;
+  }
 }
 
 .details {
-  margin: 20px 20px 20px 40px;
-  width: 60%;
+  margin: 20px 30px;
+
+  @media (min-width: $md-breakpoint) {
+    margin: 20px 20px 20px 40px;
+    width: 60%;
+  }
 }
