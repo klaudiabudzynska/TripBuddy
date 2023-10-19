@@ -4,16 +4,23 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Main from './pages/Main';
 import TripPlan from './pages/TripPlan';
 import ErrorPage from './pages/Error';
+import LocationSearch from './pages/LocationSearch';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Main />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: '/trip-plan',
-    element: <TripPlan />,
+    children: [
+      {
+        path: '',
+        element: <LocationSearch />,
+      },
+      {
+        path: 'trip-plan',
+        element: <TripPlan />,
+      },
+    ],
   },
 ]);
 

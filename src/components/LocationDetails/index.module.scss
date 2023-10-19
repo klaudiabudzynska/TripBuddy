@@ -1,14 +1,18 @@
+@import "../../styles/variables";
+
 .container {
-  background: #ededed;
+  border: 2px solid $secondary-color;
+  border-radius: 15px;
+  //background: $light-color;
   display: flex;
   justify-content: space-between;
-  padding-left: 40px;
   max-width: 800px;
   margin: 0 auto 50px auto;
+  overflow: hidden;
 }
 
 .text {
-  font-family: "Poppins", sans-serif;
+  font-family: $main-font;
 }
 
 .title {
@@ -18,8 +22,8 @@
 }
 
 .location {
-  border-bottom: 1px solid #939397;
-  color: #1f1e1e;
+  border-bottom: 1px solid $neutral-color;
+  color: $dark-color;
   display: block;
   font-size: 11px;
   margin: 10px 0 -5px;

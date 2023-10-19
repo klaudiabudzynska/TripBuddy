@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .container {
   align-items: center;
   display: flex;
@@ -7,11 +9,11 @@
 }
 
 .input {
-  border: 1px #aaa solid;
+  border: 2px $dark-color solid;
   border-radius: 5px;
-  color: #1b1b1c;
+  color: $dark-color;
+  font-size: 18px;
   margin: 0 10px;
-  outline: #4d4dd9;
   padding: 10px 20px;
 }
 
@@ -20,9 +22,9 @@
 }
 
 .button {
-  background: #4d4dd9;
-  border-color: #4d4dd9;
-  color: #e6eff6;
+  background: $primary-color;
+  border-color: $primary-color;
+  color: $light-color;
   padding: 10px 30px;
 }
 
