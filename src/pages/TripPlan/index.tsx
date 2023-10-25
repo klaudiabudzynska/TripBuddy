@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import styles from './index.module.scss';
+import TripItem from '../../components/TripItem';
 
 function TripPlan() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -30,7 +31,7 @@ function TripPlan() {
     <Button value="Create your trip" onClick={showAddingDialog} />
     <div>
       {trips.map((trip, key) => {
-        return <p key={`trip-id-${key}`}>{trip}</p>;
+        return <TripItem key={`trip-id-${key}`} location={trip}/>;
       })}
     </div>
     <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancelAddingDialog} acceptAction={saveTrip}>
