@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element: <LocationSearch />,
       },
       {
-        path: 'trip-plan',
+        path: 'trip-plans',
         element: <TripPlan />,
       },
     ],

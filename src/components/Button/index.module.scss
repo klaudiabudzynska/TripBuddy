@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+
+.button {
+  background: $primary-color;
+  border: 2px $primary-color solid;
+  border-radius: 5px;
+  color: $light-color;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 10px 30px;
+  width: 100%;
+
+  @media (min-width: $md-breakpoint) {
+    margin: 0 10px;
+    width: initial;
+  }
+}

@@ -3,7 +3,7 @@ import { callProxy } from '../../helpers/fetch.ts';
 import LocationDetails from '../LocationDetails';
 import { LocationDetailsType } from '../LocationDetails/typings.ts';
 import styles from './index.module.scss';
-import * as classNames from 'classnames';
+import Button from '../Button';
 
 const Search = () => {
   const [locationsDetails, setLocationsDetails] = useState<LocationDetailsType[]>([]);
@@ -26,13 +26,11 @@ const Search = () => {
     <>
       <form className={styles.container} onSubmit={handleSearch}>
         <input className={styles.input} onChange={(e) => setLocationInput(e.target.value)} />
-        <button type="submit" className={classNames(styles.input, styles.button)}>
-          Search
-        </button>
+        <Button type="submit" value="Search"/>
       </form>
-      {locationsDetails.map((locationDetails, key) => (
+      {locationsDetails ? locationsDetails.map((locationDetails, key) => (
         <LocationDetails location_id={locationDetails.location_id} key={key} />
-      ))}
+      )): <p>Not found</p>}
     </>
   );
 };

@@ -8,8 +8,8 @@ function Main() {
         <a className={styles.navigationItems} href="/">
           Home
         </a>
-        <a className={styles.navigationItems} href="/trip-plan">
-          Trip plan
+        <a className={styles.navigationItems} href="/trip-plans">
+          Trip plans
         </a>
       </nav>
       <Outlet />
