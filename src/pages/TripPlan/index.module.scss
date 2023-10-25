@@ -1,5 +1,9 @@
 @import "../../styles/common";
 
 .title {
-  @extend .title
+  @extend .title;
+}
+
+.input {
+  @extend .input;
 }

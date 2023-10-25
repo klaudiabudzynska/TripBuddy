@@ -1,0 +1,17 @@
+@import "../../styles/variables";
+@import "../../styles/common";
+
+.modal {
+  border: 2px solid $primary-color;
+  border-radius: 15px;
+  padding: 20px 30px;
+}
+
+.title {
+  @extend .subtitle;
+  margin-top: 0;
+}
+
+.modalContent {
+  margin-bottom: 40px;
+}
