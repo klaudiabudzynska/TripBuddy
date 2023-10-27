@@ -1,16 +1,16 @@
-import { Outlet } from 'react-router-dom';
+import {Link, Outlet} from 'react-router-dom';
 import styles from './index.module.scss';
 
 function Main() {
   return (
     <div className={styles.container}>
       <nav className={styles.navigation}>
-        <a className={styles.navigationItems} href="/">
+        <Link className={styles.navigationItems} to="/">
           Home
-        </a>
-        <a className={styles.navigationItems} href="/trip-plans">
+        </Link>
+        <Link className={styles.navigationItems} to="/trip-plans">
           Trip plans
-        </a>
+        </Link>
       </nav>
       <Outlet />
     </div>
