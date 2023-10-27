@@ -5,6 +5,7 @@ import * as classNames from 'classnames';
 import { callProxy } from '../../helpers/fetch.ts';
 import { useEffect, useState } from 'react';
 import { getLocationDetailsLS, setLocationDetailsLS } from '../../helpers/cache.ts';
+import Button from '../Button';
 
 const LocationDetails = (details: LocationDetailsType) => {
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
@@ -41,6 +42,9 @@ const LocationDetails = (details: LocationDetailsType) => {
       </div>
 
       <Photos locationId={location_id} />
+      <div className={styles.addToTrip}>
+        <Button value="Add to a trip" addClass={styles.addToTripButton} />
+      </div>
     </div>
   ) : null;
 };

@@ -9,11 +9,41 @@
   max-width: 800px;
   margin: 0 10px 50px 10px;
   overflow: hidden;
+  position: relative;
 
   @media (min-width: $md-breakpoint) {
     flex-direction: row;
     margin: 0 auto 50px auto;
   }
+
+  &:hover {
+    .addToTrip {
+      display: flex;
+    }
+  }
+}
+
+.addToTrip {
+  align-items: center;
+  display: none;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  transition: .3s;
+  width: 100%;
+
+  &:before {
+    background: $neutral-color;
+    content: '';
+    height: 100%;
+    opacity: .5;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.addToTripButton {
+  z-index: 2;
 }
 
 .text {
