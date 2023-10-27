@@ -3,11 +3,13 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import styles from './index.module.scss';
 import TripItem from '../../components/TripItem';
+import {addTripPlanToLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
 
 function TripPlan() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [trips, setTrips] = useState<string[]>([]);
   const [newTripName, setNewTripName] = useState('');
+
+  const trips: TripPlanType[] = getLSTripPlansList() || [];
 
   const onTripNameInput = (e: React.FormEvent<HTMLInputElement>) => {
     setNewTripName(e.currentTarget.value);
@@ -23,7 +25,7 @@ function TripPlan() {
 
   const saveTrip = () => {
     setIsModalOpen(false);
-    setTrips([...trips, newTripName]);
+    addTripPlanToLS(newTripName);
   };
 
   return <div>
@@ -31,7 +33,7 @@ function TripPlan() {
     <Button value="Create your trip" onClick={showAddingDialog} />
     <div className={styles.tripsList}>
       {trips.map((trip, key) => {
-        return <TripItem key={`trip-id-${key}`} location={trip}/>;
+        return <TripItem key={`trip-id-${key}`} location={trip.name}/>;
       })}
     </div>
     <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancelAddingDialog} acceptAction={saveTrip}>
