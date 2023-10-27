@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
 import LocationDetails from '../LocationDetails';
 import { LocationDetailsType } from '../LocationDetails/typings.ts';
 import styles from './index.module.scss';
-import * as classNames from 'classnames';
+import Button from '../Button';
+import {LocationDetailsContext} from '../../context/LocationDetailsContext.ts';
 
 const Search = () => {
-  const [locationsDetails, setLocationsDetails] = useState<LocationDetailsType[]>([]);
-  const [locationInput, setLocationInput] = useState<string | undefined>();
+  const {locationDetailsContext, setLocationDetailsContext} = useContext(LocationDetailsContext);
+  const [locationsDetails, setLocationsDetails] = useState<LocationDetailsType[]>(locationDetailsContext?.data || []);
+  const [locationInput, setLocationInput] = useState<string | undefined>(locationDetailsContext?.searchedValue || undefined);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,6 +20,10 @@ const Search = () => {
     callProxy('/tripadvisor-api/search', { searchString: locationInput })
       .then((res) => {
         setLocationsDetails(res);
+        setLocationDetailsContext && setLocationDetailsContext({
+          searchedValue: locationInput,
+          data: res
+        });
       })
       .catch((err) => console.error('error:' + err));
   };
@@ -25,14 +31,16 @@ const Search = () => {
   return (
     <>
       <form className={styles.container} onSubmit={handleSearch}>
-        <input className={styles.input} onChange={(e) => setLocationInput(e.target.value)} />
-        <button type="submit" className={classNames(styles.input, styles.button)}>
-          Search
-        </button>
+        <input
+          className={styles.input}
+          defaultValue={locationInput}
+          onChange={(e) => setLocationInput(e.target.value)}
+        />
+        <Button type="submit" value="Search"/>
       </form>
-      {locationsDetails.map((locationDetails, key) => (
+      {locationsDetails ? locationsDetails.map((locationDetails, key) => (
         <LocationDetails location_id={locationDetails.location_id} key={key} />
-      ))}
+      )): <p>Not found</p>}
     </>
   );
 };

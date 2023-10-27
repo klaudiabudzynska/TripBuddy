@@ -6,6 +6,7 @@ export type LocationDetailPhoto = {
   id: string;
   caption: string;
   images: {
+    large: PhotoSpec;
     original: PhotoSpec;
     small: PhotoSpec;
     thumbnail: PhotoSpec;

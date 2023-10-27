@@ -1,0 +1,31 @@
+@import "./variables";
+
+.title {
+  color: $dark-color;
+  font-family: $main-font;
+  font-size: 22px;
+  text-align: center;
+
+  @media (min-width: $sm-breakpoint) {
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  @extend .title;
+
+  font-size: 18px;
+
+  @media (min-width: $sm-breakpoint) {
+    font-size: 24px;
+  }
+}
+
+.input {
+  border: 2px $dark-color solid;
+  border-radius: 5px;
+  color: $dark-color;
+  font-size: 16px;
+  padding: 10px 20px;
+  width: 100%;
+}

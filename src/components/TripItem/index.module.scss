@@ -1,0 +1,13 @@
+@import "../../styles/variables";
+
+.tripItem {
+  column-gap: 30px;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.imagePlaceholder {
+  background: $neutral-color;
+  height: 200px;
+  width: 200px;
+}

@@ -29,15 +29,13 @@ const Photos = ({ locationId }: PhotosProps) => {
   return data ? (
     <div className={styles.container}>
       {data.map((photo) => {
-        const { url, width, height } = photo.images.small || {};
+        const { url } = photo.images.large || {};
 
         return (
           <img
             key={photo.id}
             alt={photo.caption}
             src={url || photo.images.original.url}
-            width={width || 150}
-            height={height || 150}
             className={styles.image}
           />
         );

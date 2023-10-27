@@ -1,19 +1,43 @@
-import { LocationDetailsType } from './typings.ts';
-import Photos from './Photos';
-import styles from './index.module.scss';
+import React, { useEffect, useState } from 'react';
 import * as classNames from 'classnames';
-import { callProxy } from '../../helpers/fetch.ts';
-import { useEffect, useState } from 'react';
 import { getLocationDetailsLS, setLocationDetailsLS } from '../../helpers/cache.ts';
+import { callProxy } from '../../helpers/fetch.ts';
+import Button from '../Button';
+import Modal from '../Modal';
+import Photos from './Photos';
+import { LocationDetailsType } from './typings.ts';
+import styles from './index.module.scss';
+import {addLocationToTripPlanLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
 
 const LocationDetails = (details: LocationDetailsType) => {
+  const trips: TripPlanType[] = getLSTripPlansList() || [];
+
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedTripId, setSelectedTripId] = useState<number>(trips[0]?.id || 0);
 
   useEffect(() => {
     if (details.location_id) {
       getLocationDetails(details.location_id);
     }
   }, [details]);
+
+  const showAddingDialog = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const cancelAddingDialog = () => {
+    setIsModalOpen(false);
+  };
+
+  const saveTrip = () => {
+    setIsModalOpen(false);
+    details.location_id && addLocationToTripPlanLS(selectedTripId, details.location_id);
+  };
+
+  const onTripSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    setSelectedTripId(parseInt(e.currentTarget.value));
+  };
 
   const getLocationDetails = (locationId: string) => {
     if (locationId && !getLocationDetailsLS(locationId)) {
@@ -41,6 +65,23 @@ const LocationDetails = (details: LocationDetailsType) => {
       </div>
 
       <Photos locationId={location_id} />
+      <div className={styles.addToTrip}>
+        <Button value="Add to a trip" addClass={styles.addToTripButton} onClick={showAddingDialog} />
+        <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancelAddingDialog} acceptAction={saveTrip}>
+          <>
+            <p>Choose a trip</p>
+            <select onChange={onTripSelectChange}>
+              {
+                trips.map((trip, key) => {
+                  return (
+                    <option key={key} value={trip.id}>{trip.name}</option>
+                  );
+                })
+              }
+            </select>
+          </>
+        </Modal>
+      </div>
     </div>
   ) : null;
 };

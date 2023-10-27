@@ -1,14 +1,45 @@
-import Search from './components/Search';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import Main from './pages/Main';
+import ErrorPage from './pages/Error';
+import LocationSearch from './pages/LocationSearch';
+import TripPlans from './pages/TripPlans';
+import TripPlan from './pages/TripPlan';
+import {
+  LocationDetailsContext,
+  LocationDetailsContextValue
+} from './context/LocationDetailsContext.ts';
+import {useState} from 'react';
 
-const queryClient = new QueryClient();
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Main />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '',
+        element: <LocationSearch />,
+      },
+      {
+        path: 'trip-plans',
+        element: <TripPlans />,
+      },
+      {
+        path: 'trip-plans/:id',
+        element: <TripPlan />,
+      },
+    ],
+  },
+]);
 
-function App() {
+const App = () => {
+  const [locationDetailsContext, setLocationDetailsContext] = useState<LocationDetailsContextValue>({});
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Search />
-    </QueryClientProvider>
+    <LocationDetailsContext.Provider value={{locationDetailsContext, setLocationDetailsContext}}>
+      <RouterProvider router={router} />
+    </LocationDetailsContext.Provider>
   );
-}
+};
 
 export default App;
