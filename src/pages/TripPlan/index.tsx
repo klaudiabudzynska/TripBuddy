@@ -29,7 +29,7 @@ function TripPlan() {
   return <div>
     <h1 className={styles.title}>Your trip plans</h1>
     <Button value="Create your trip" onClick={showAddingDialog} />
-    <div>
+    <div className={styles.tripsList}>
       {trips.map((trip, key) => {
         return <TripItem key={`trip-id-${key}`} location={trip}/>;
       })}

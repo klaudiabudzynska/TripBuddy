@@ -1,4 +1,4 @@
-import {LegacyRef, MouseEventHandler, ReactElement, useEffect, useRef} from 'react';
+import {Ref, MouseEventHandler, ReactElement, useEffect, useRef} from 'react';
 import styles from './index.module.scss';
 import Button, {ButtonStyle} from '../Button';
 
@@ -11,7 +11,7 @@ type ModalProps = {
 }
 
 const Modal = ({ isOpen, title, closeModal, acceptAction, children }: ModalProps) => {
-  const modalRef: LegacyRef<HTMLDialogElement> | undefined = useRef(null);
+  const modalRef: Ref<HTMLDialogElement> | undefined = useRef(null);
 
   useEffect(() => {
     isOpen ? modalRef.current?.show() : modalRef.current?.close();

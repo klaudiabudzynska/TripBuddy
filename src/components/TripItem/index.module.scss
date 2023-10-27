@@ -1,8 +1,9 @@
 @import "../../styles/variables";
 
 .tripItem {
-  display: flex;
   column-gap: 30px;
+  display: flex;
+  margin-bottom: 20px;
 }
 
 .imagePlaceholder {
