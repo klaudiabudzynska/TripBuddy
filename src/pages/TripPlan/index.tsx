@@ -1,48 +1,20 @@
-import React, {useState} from 'react';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
+import {useParams} from 'react-router-dom';
+import {getLSTripPlanById} from '../../helpers/userData.ts';
+import LocationDetails from '../../components/LocationDetails';
 import styles from './index.module.scss';
-import TripItem from '../../components/TripItem';
-import {addTripPlanToLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
 
-function TripPlan() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [newTripName, setNewTripName] = useState('');
+const TripPlan = () => {
+  const {id} = useParams();
+  const tripPlanData = getLSTripPlanById(parseInt(id || '0'));
 
-  const trips: TripPlanType[] = getLSTripPlansList() || [];
-
-  const onTripNameInput = (e: React.FormEvent<HTMLInputElement>) => {
-    setNewTripName(e.currentTarget.value);
-  };
-
-  const showAddingDialog = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const cancelAddingDialog = () => {
-    setIsModalOpen(false);
-  };
-
-  const saveTrip = () => {
-    setIsModalOpen(false);
-    addTripPlanToLS(newTripName);
-  };
-
-  return <div>
-    <h1 className={styles.title}>Your trip plans</h1>
-    <Button value="Create your trip" onClick={showAddingDialog} />
-    <div className={styles.tripsList}>
-      {trips.map((trip, key) => {
-        return <TripItem key={`trip-id-${key}`} location={trip.name}/>;
-      })}
-    </div>
-    <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancelAddingDialog} acceptAction={saveTrip}>
-      <>
-        <p>Trip name</p>
-        <input className={styles.input} onChange={onTripNameInput}/>
-      </>
-    </Modal>
-  </div>;
-}
+  return (<div>
+    <h1 className={styles.title}>Trip plan to {tripPlanData?.name}</h1>
+    {
+      tripPlanData?.locationsId.map((locationId, key) => {
+        return <LocationDetails location_id={locationId} key={key} />;
+      })
+    }
+  </div>);
+};
 
 export default TripPlan;

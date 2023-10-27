@@ -2,6 +2,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Main from './pages/Main';
 import ErrorPage from './pages/Error';
 import LocationSearch from './pages/LocationSearch';
+import TripPlans from './pages/TripPlans';
 import TripPlan from './pages/TripPlan';
 import {
   LocationDetailsContext,
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       },
       {
         path: 'trip-plans',
+        element: <TripPlans />,
+      },
+      {
+        path: 'trip-plans/:id',
         element: <TripPlan />,
       },
     ],

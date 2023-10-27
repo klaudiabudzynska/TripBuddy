@@ -1,14 +1,16 @@
 import styles from './index.module.scss';
+import {Link} from 'react-router-dom';
 
 type TripItemProps = {
-  location: string;
+  id: number
+  locationName: string;
 }
 
-const TripItem = ({location}: TripItemProps) => {
-  return <div className={styles.tripItem}>
+const TripItem = ({id, locationName}: TripItemProps) => {
+  return <Link className={styles.tripItem} to={`/trip-plans/${id}`}>
     <div className={styles.imagePlaceholder}></div>
-    <h3>{location}</h3>
-  </div>;
+    <h3>{locationName}</h3>
+  </Link>;
 };
 
 export default TripItem;

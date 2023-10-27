@@ -33,3 +33,11 @@ const getLSItem = (key: string) => {
 export const getLSTripPlansList = (): TripPlanType[] => {
   return getLSItem(TRIP_PLANS_KEY);
 };
+
+export const getLSTripPlanById = (id: number): TripPlanType | undefined => {
+  const tripPlans: TripPlanType[] = getLSTripPlansList();
+
+  return tripPlans.find((tripPlan: TripPlanType) => {
+    return tripPlan.id === id;
+  });
+};
