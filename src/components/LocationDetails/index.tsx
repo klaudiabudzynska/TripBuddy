@@ -14,7 +14,7 @@ const LocationDetails = (details: LocationDetailsType) => {
 
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedTrip, setSelectedTrip] = useState<string>(trips[0]?.name || '');
+  const [selectedTripId, setSelectedTripId] = useState<number>(trips[0]?.id || 0);
 
   useEffect(() => {
     if (details.location_id) {
@@ -32,11 +32,11 @@ const LocationDetails = (details: LocationDetailsType) => {
 
   const saveTrip = () => {
     setIsModalOpen(false);
-    details.location_id && addLocationToTripPlanLS(selectedTrip, details.location_id);
+    details.location_id && addLocationToTripPlanLS(selectedTripId, details.location_id);
   };
 
   const onTripSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
-    setSelectedTrip(e.currentTarget.value);
+    setSelectedTripId(parseInt(e.currentTarget.value));
   };
 
   const getLocationDetails = (locationId: string) => {
@@ -74,7 +74,7 @@ const LocationDetails = (details: LocationDetailsType) => {
               {
                 trips.map((trip, key) => {
                   return (
-                    <option key={key} value={trip.name}>{trip.name}</option>
+                    <option key={key} value={trip.id}>{trip.name}</option>
                   );
                 })
               }
