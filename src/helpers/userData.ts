@@ -3,14 +3,24 @@ const TRIP_PLANS_KEY = 'TripBuddy_trip_plans';
 export type TripPlanType = {
   id: number,
   name: string,
+  startDate?: Date,
+  endDate?: Date,
   locationsId: string[],
 };
 
-export const addTripPlanToLS = (name: string) => {
+export type NewTripData = {
+  name: string,
+  startDate: Date,
+  endDate: Date,
+}
+
+export const addTripPlanToLS = ({name, startDate, endDate}: NewTripData) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
   localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify([...tripPlans, {
     id: new Date().getTime(),
     name,
+    startDate,
+    endDate,
     locationsId: [],
   }]));
 };
