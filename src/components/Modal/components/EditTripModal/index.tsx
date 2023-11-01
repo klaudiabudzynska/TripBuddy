@@ -48,7 +48,7 @@ const EditTripModal = ({isModalOpen, tripName, startDate, endDate, closeModal, s
   return <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancel} acceptAction={save}>
     <>
       <label className={styles.label}>Trip name</label>
-      <input className={styles.input} onChange={onTripNameInput}/>
+      <input defaultValue={tripName} className={styles.input} onChange={onTripNameInput}/>
       <p className={styles.label}>Trip dates</p>
       <div className={styles.dates}>
         <div className={styles.date}>
