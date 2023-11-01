@@ -7,7 +7,12 @@ import Modal from '../Modal';
 import Photos from './Photos';
 import {LocationDetailsType} from './typings.ts';
 import styles from './index.module.scss';
-import {addLocationToTripPlanLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
+import {
+  addLocationToTripPlanLS,
+  getLSTripPlansList,
+  removeFromTripPlanLS,
+  TripPlanType
+} from '../../helpers/userData.ts';
 
 export enum ACTIONS {
   add,
@@ -16,10 +21,12 @@ export enum ACTIONS {
 
 type LocationDetailsProps = {
   locationId?: string,
+  tripId?: number,
   actions?: ACTIONS[],
+  callback?: () => void,
 }
 
-const LocationDetails = ({locationId, actions}: LocationDetailsProps) => {
+const LocationDetails = ({locationId, tripId, actions, callback}: LocationDetailsProps) => {
   const trips: TripPlanType[] = getLSTripPlansList() || [];
 
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
@@ -63,7 +70,8 @@ const LocationDetails = ({locationId, actions}: LocationDetailsProps) => {
   };
 
   const removeFromTripPlan = () => {
-    // removeFromTripPlanLS();
+    removeFromTripPlanLS(tripId || 0, locationId || '0');
+    callback && callback();
   };
 
   const { location_id, name, address_obj, description } = locationDetails;
