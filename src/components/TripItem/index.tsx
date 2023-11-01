@@ -12,12 +12,14 @@ type TripItemProps = {
 
 const TripItem = ({changeCallback, tripData: {id, name, startDate, endDate}}: TripItemProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const startDateFormat = new Date(startDate || 0);
+  const endDateFormat = new Date(endDate || 0);
 
   const dateOptions: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'long', day: 'numeric'};
   const formattedStartDate = new Intl.DateTimeFormat('en-US', dateOptions)
-    .format(new Date(startDate || 0));
+    .format(startDateFormat);
   const formattedEndDate = new Intl.DateTimeFormat('en-US', dateOptions)
-    .format(new Date(endDate || 0));
+    .format(endDateFormat);
 
   const openEditingDialog = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -56,6 +58,9 @@ const TripItem = ({changeCallback, tripData: {id, name, startDate, endDate}}: Tr
           </span>
           <span>
           End: {formattedEndDate}
+          </span>
+          <span>
+            {Math.floor((endDateFormat.getTime() - startDateFormat.getTime()) / (1000 * 3600 * 24)) + 1} days
           </span>
         </div>
         }
