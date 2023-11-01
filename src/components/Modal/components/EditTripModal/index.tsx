@@ -11,6 +11,9 @@ type RefData = {
 
 type AddTripModalProps = {
   isModalOpen: boolean,
+  tripName?: string,
+  startDate?: Date,
+  endDate?: Date,
   closeModal: () => void,
   saveTrip: (name: string, startDate: Date, endDate: Date) => void,
 }
@@ -23,10 +26,12 @@ const CustomDateInput = forwardRef(({ value, onClick }: RefData, ref: React.Ref<
 
 CustomDateInput.displayName = 'CustomDateInput';
 
-const AddTripModal = ({isModalOpen, closeModal, saveTrip}: AddTripModalProps) => {
-  const [newTripName, setNewTripName] = useState('');
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+const EditTripModal = ({isModalOpen, tripName, startDate, endDate, closeModal, saveTrip}: AddTripModalProps) => {
+  const [newTripName, setNewTripName] = useState(tripName || '');
+  const [newStartDate, setNewStartDate] =
+    useState<Date>(startDate ? new Date(startDate) : new Date());
+  const [newEndDate, setNewEndDate] =
+    useState<Date>(endDate ? new Date(endDate) : new Date());
 
   const onTripNameInput = (e: React.FormEvent<HTMLInputElement>) => {
     setNewTripName(e.currentTarget.value);
@@ -37,7 +42,7 @@ const AddTripModal = ({isModalOpen, closeModal, saveTrip}: AddTripModalProps) =>
   };
 
   const save = () => {
-    saveTrip(newTripName, startDate, endDate);
+    saveTrip(newTripName, newStartDate, newEndDate);
   };
 
   return <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancel} acceptAction={save}>
@@ -49,17 +54,17 @@ const AddTripModal = ({isModalOpen, closeModal, saveTrip}: AddTripModalProps) =>
         <div className={styles.date}>
           <label className={styles.label}>Start date</label>
           <DatePicker
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
+            selected={newStartDate}
+            onChange={(date: Date) => setNewStartDate(date)}
             customInput={<CustomDateInput />}
           />
         </div>
         <div className={styles.date}>
           <label className={styles.label}>End date</label>
           <DatePicker
-            selected={endDate}
+            selected={newEndDate}
             minDate={startDate}
-            onChange={(date: Date) => setEndDate(date)}
+            onChange={(date: Date) => setNewEndDate(date)}
             customInput={<CustomDateInput />}
           />
         </div>
@@ -68,4 +73,4 @@ const AddTripModal = ({isModalOpen, closeModal, saveTrip}: AddTripModalProps) =>
   </Modal>;
 };
 
-export default AddTripModal;
+export default EditTripModal;

@@ -25,6 +25,27 @@ export const addTripPlanToLS = ({name, startDate, endDate}: NewTripData) => {
   }]));
 };
 
+export const editTripPlanLS = (id: number, {name, startDate, endDate}: NewTripData) => {
+  const tripPlans: TripPlanType[] = getLSTripPlansList();
+
+  const index =  tripPlans.findIndex((tripPlan: TripPlanType) => {
+    return tripPlan.id === id;
+  });
+
+  if (index === -1) {
+    return;
+  }
+
+  tripPlans[index] = {
+    ...tripPlans[index],
+    name,
+    startDate,
+    endDate
+  };
+
+  localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
+};
+
 export const removeTripFromLS = (id: number) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
 

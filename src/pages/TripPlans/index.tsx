@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Button from '../../components/Button';
 import TripItem from '../../components/TripItem';
-import AddTripModal from '../../components/Modal/components/AddTripModal';
+import EditTripModal from '../../components/Modal/components/EditTripModal';
 import {addTripPlanToLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
 import styles from './index.module.scss';
 
@@ -26,6 +26,10 @@ function TripPlans() {
     setTrips(getLSTripPlansList() || []);
   };
 
+  useEffect(() => {
+    setTrips(getLSTripPlansList() || []);
+  }, [isModalOpen]);
+
   return <div>
     <h1 className={styles.title}>Your trip plans</h1>
     <Button value="Create your trip" onClick={showAddingDialog} />
@@ -34,7 +38,7 @@ function TripPlans() {
         return <TripItem key={`trip-id-${key}`} changeCallback={changeCallback} tripData={trip}/>;
       })}
     </div>
-    <AddTripModal isModalOpen={isModalOpen} saveTrip={saveTrip} closeModal={closeAddingDialog}/>
+    <EditTripModal isModalOpen={isModalOpen} saveTrip={saveTrip} closeModal={closeAddingDialog}/>
   </div>;
 }
 
