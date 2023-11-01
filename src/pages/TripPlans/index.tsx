@@ -1,10 +1,9 @@
 import {useState} from 'react';
 import Button from '../../components/Button';
 import TripItem from '../../components/TripItem';
-import {addTripPlanToLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
-import 'react-datepicker/dist/react-datepicker.css';
-import styles from './index.module.scss';
 import AddTripModal from '../../components/Modal/components/AddTripModal';
+import {addTripPlanToLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
+import styles from './index.module.scss';
 
 function TripPlans() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -29,7 +28,7 @@ function TripPlans() {
     <Button value="Create your trip" onClick={showAddingDialog} />
     <div className={styles.tripsList}>
       {trips.map((trip, key) => {
-        return <TripItem key={`trip-id-${key}`} locationName={trip.name} id={trip.id}/>;
+        return <TripItem key={`trip-id-${key}`} {...trip}/>;
       })}
     </div>
     <AddTripModal isModalOpen={isModalOpen} saveTrip={saveTrip} closeModal={closeAddingDialog}/>

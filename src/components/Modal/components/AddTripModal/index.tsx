@@ -1,7 +1,8 @@
-import styles from '../../../../pages/TripPlans/index.module.scss';
-import DatePicker from 'react-datepicker';
-import Modal from '../../index.tsx';
 import React, {forwardRef, useState} from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import styles from './index.module.scss';
+import Modal from '../../index.tsx';
 
 type RefData = {
   value?: string | number | readonly string[] | undefined,
@@ -41,20 +42,20 @@ const AddTripModal = ({isModalOpen, closeModal, saveTrip}: AddTripModalProps) =>
 
   return <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancel} acceptAction={save}>
     <>
-      <label>Trip name</label>
+      <label className={styles.label}>Trip name</label>
       <input className={styles.input} onChange={onTripNameInput}/>
-      <p>Trip dates</p>
-      <div>
-        <div>
-          <label>Start date</label>
+      <p className={styles.label}>Trip dates</p>
+      <div className={styles.dates}>
+        <div className={styles.date}>
+          <label className={styles.label}>Start date</label>
           <DatePicker
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)}
             customInput={<CustomDateInput />}
           />
         </div>
-        <div>
-          <label>End date</label>
+        <div className={styles.date}>
+          <label className={styles.label}>End date</label>
           <DatePicker
             selected={endDate}
             minDate={startDate}

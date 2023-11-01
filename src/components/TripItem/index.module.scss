@@ -1,13 +1,35 @@
 @import "../../styles/variables";
+@import "../../styles/common";
 
 .tripItem {
   column-gap: 30px;
   display: flex;
   margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.title {
+  @extend .subtitle;
+  margin: 0;
+  text-align: left;
 }
 
 .imagePlaceholder {
   background: $neutral-color;
-  height: 200px;
+  height: 150px;
   width: 200px;
+}
+
+.tripData {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-block: 10px;
+}
+
+.dates {
+  @extend .text;
+  color: $neutral-color;
+  display: flex;
+  gap: 20px;
 }

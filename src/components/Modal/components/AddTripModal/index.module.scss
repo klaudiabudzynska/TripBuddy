@@ -1,0 +1,20 @@
+@import "../../../../styles/common";
+
+.input {
+  @extend .input;
+}
+
+.label {
+  @extend .text;
+}
+
+.dates {
+  column-gap: 20px;
+  display: flex;
+}
+
+.date {
+  .label {
+    display: block;
+  }
+}

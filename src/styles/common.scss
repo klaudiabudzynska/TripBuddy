@@ -21,6 +21,11 @@
   }
 }
 
+.text {
+  color: $dark-color;
+  font-family: $main-font;
+}
+
 .input {
   border: 2px $dark-color solid;
   border-radius: 5px;
