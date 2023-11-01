@@ -7,8 +7,7 @@ import styles from './index.module.scss';
 
 function TripPlans() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const trips: TripPlanType[] = getLSTripPlansList() || [];
+  const [trips, setTrips] = useState<TripPlanType[]>(getLSTripPlansList() || []);
 
   const showAddingDialog = () => {
     setIsModalOpen(!isModalOpen);
@@ -23,12 +22,16 @@ function TripPlans() {
     addTripPlanToLS({name, startDate, endDate});
   };
 
+  const changeCallback = () => {
+    setTrips(getLSTripPlansList() || []);
+  };
+
   return <div>
     <h1 className={styles.title}>Your trip plans</h1>
     <Button value="Create your trip" onClick={showAddingDialog} />
     <div className={styles.tripsList}>
       {trips.map((trip, key) => {
-        return <TripItem key={`trip-id-${key}`} {...trip}/>;
+        return <TripItem key={`trip-id-${key}`} changeCallback={changeCallback} tripData={trip}/>;
       })}
     </div>
     <AddTripModal isModalOpen={isModalOpen} saveTrip={saveTrip} closeModal={closeAddingDialog}/>

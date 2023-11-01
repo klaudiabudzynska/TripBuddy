@@ -25,6 +25,19 @@ export const addTripPlanToLS = ({name, startDate, endDate}: NewTripData) => {
   }]));
 };
 
+export const removeTripFromLS = (id: number) => {
+  const tripPlans: TripPlanType[] = getLSTripPlansList();
+
+  const index =  tripPlans.findIndex((tripPlan: TripPlanType) => {
+    return tripPlan.id === id;
+  });
+
+  if (index !== -1) {
+    tripPlans.splice(index, 1);
+    localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
+  }
+};
+
 export const removeFromTripPlanLS = (id: number, locationId: string) => {
   const tripPlanToUpdate = getLSTripPlanById(id);
 
