@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
-import LocationDetails from '../LocationDetails';
+import LocationDetails, {ACTIONS} from '../LocationDetails';
 import { LocationDetailsType } from '../LocationDetails/typings.ts';
 import styles from './index.module.scss';
 import Button from '../Button';
@@ -39,7 +39,7 @@ const Search = () => {
         <Button type="submit" value="Search"/>
       </form>
       {locationsDetails ? locationsDetails.map((locationDetails, key) => (
-        <LocationDetails location_id={locationDetails.location_id} key={key} />
+        <LocationDetails locationId={locationDetails.location_id} actions={[ACTIONS.add]} key={key} />
       )): <p>Not found</p>}
     </>
   );

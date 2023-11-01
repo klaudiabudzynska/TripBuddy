@@ -34,3 +34,15 @@
     border-color: $neutral-color;
   }
 }
+
+.buttonDelete {
+  @extend .button;
+  background: $error-color;
+  border-color: $error-color;
+  color: $light-color;
+
+  &:hover {
+    background: $dark-error-color;
+    border-color: $dark-error-color;
+  }
+}

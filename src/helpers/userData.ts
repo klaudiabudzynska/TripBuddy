@@ -25,6 +25,10 @@ export const addTripPlanToLS = ({name, startDate, endDate}: NewTripData) => {
   }]));
 };
 
+export const removeFromTripPlanLS = (id: number, locationId: string) => {
+  console.log(id, locationId);
+};
+
 export const addLocationToTripPlanLS = (id: number, locationId: string) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
   const tripPlanIndex = tripPlans.findIndex((tripPlan: TripPlanType) => {

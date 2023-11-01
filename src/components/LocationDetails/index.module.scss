@@ -17,13 +17,13 @@
   }
 
   &:hover {
-    .addToTrip {
+    .actions {
       display: flex;
     }
   }
 }
 
-.addToTrip {
+.actions {
   align-items: center;
   display: none;
   height: 100%;
@@ -42,7 +42,7 @@
   }
 }
 
-.addToTripButton {
+.actionButton {
   z-index: 1;
 }
 

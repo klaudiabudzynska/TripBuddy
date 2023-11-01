@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import * as classNames from 'classnames';
-import { getLocationDetailsLS, setLocationDetailsLS } from '../../helpers/cache.ts';
-import { callProxy } from '../../helpers/fetch.ts';
-import Button from '../Button';
+import {getLocationDetailsLS, setLocationDetailsLS} from '../../helpers/cache.ts';
+import {callProxy} from '../../helpers/fetch.ts';
+import Button, {ButtonStyle} from '../Button';
 import Modal from '../Modal';
 import Photos from './Photos';
-import { LocationDetailsType } from './typings.ts';
+import {LocationDetailsType} from './typings.ts';
 import styles from './index.module.scss';
 import {addLocationToTripPlanLS, getLSTripPlansList, TripPlanType} from '../../helpers/userData.ts';
 
-const LocationDetails = (details: LocationDetailsType) => {
+export enum ACTIONS {
+  add,
+  delete,
+}
+
+type LocationDetailsProps = {
+  locationId?: string,
+  actions?: ACTIONS[],
+}
+
+const LocationDetails = ({locationId, actions}: LocationDetailsProps) => {
   const trips: TripPlanType[] = getLSTripPlansList() || [];
 
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
@@ -17,10 +27,10 @@ const LocationDetails = (details: LocationDetailsType) => {
   const [selectedTripId, setSelectedTripId] = useState<number>(trips[0]?.id || 0);
 
   useEffect(() => {
-    if (details.location_id) {
-      getLocationDetails(details.location_id);
+    if (locationId) {
+      getLocationDetails(locationId);
     }
-  }, [details]);
+  }, [locationId]);
 
   const showAddingDialog = () => {
     setIsModalOpen(!isModalOpen);
@@ -32,7 +42,7 @@ const LocationDetails = (details: LocationDetailsType) => {
 
   const saveTrip = () => {
     setIsModalOpen(false);
-    details.location_id && addLocationToTripPlanLS(selectedTripId, details.location_id);
+    locationId && addLocationToTripPlanLS(selectedTripId, locationId);
   };
 
   const onTripSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -52,6 +62,10 @@ const LocationDetails = (details: LocationDetailsType) => {
     }
   };
 
+  const removeFromTripPlan = () => {
+    // removeFromTripPlanLS();
+  };
+
   const { location_id, name, address_obj, description } = locationDetails;
 
   return location_id ? (
@@ -65,23 +79,42 @@ const LocationDetails = (details: LocationDetailsType) => {
       </div>
 
       <Photos locationId={location_id} />
-      <div className={styles.addToTrip}>
-        <Button value="Add to a trip" addClass={styles.addToTripButton} onClick={showAddingDialog} />
-        <Modal isOpen={isModalOpen} title="Create a trip" closeModal={cancelAddingDialog} acceptAction={saveTrip}>
-          <>
-            <p>Choose a trip</p>
-            <select onChange={onTripSelectChange}>
-              {
-                trips.map((trip, key) => {
-                  return (
-                    <option key={key} value={trip.id}>{trip.name}</option>
-                  );
-                })
-              }
-            </select>
-          </>
-        </Modal>
+      <div className={styles.actions}>
+        {actions?.includes(ACTIONS.add) &&
+          <Button
+            value="Add to a trip"
+            addClass={styles.actionButton}
+            onClick={showAddingDialog}
+          />
+        }
+        {actions?.includes(ACTIONS.delete) &&
+          <Button
+            value="Remove from a trip"
+            addClass={styles.actionButton}
+            onClick={removeFromTripPlan}
+            style={ButtonStyle.delete}
+          />
+        }
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        title="Create a trip"
+        closeModal={cancelAddingDialog}
+        acceptAction={saveTrip}
+      >
+        <>
+          <p>Choose a trip</p>
+          <select onChange={onTripSelectChange}>
+            {
+              trips.map((trip, key) => {
+                return (
+                  <option key={key} value={trip.id}>{trip.name}</option>
+                );
+              })
+            }
+          </select>
+        </>
+      </Modal>
     </div>
   ) : null;
 };

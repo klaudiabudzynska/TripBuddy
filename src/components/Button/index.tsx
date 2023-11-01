@@ -5,6 +5,7 @@ import * as classNames from 'classnames';
 export enum ButtonStyle {
     primary,
     secondary,
+    delete,
 }
 
 type ButtonProps = {
@@ -28,6 +29,7 @@ const Button = ({
       className={classNames({
         [styles.button]: style === ButtonStyle.primary,
         [styles.buttonSecondary]: style === ButtonStyle.secondary,
+        [styles.buttonDelete]: style === ButtonStyle.delete,
         [addClass]: !!addClass
       })}
       onClick={onClick}
