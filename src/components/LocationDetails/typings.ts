@@ -6,4 +6,6 @@ export type LocationDetailsType = {
     country: string;
   };
   description?: string;
+  latitude?: string;
+  longitude?: string
 };
