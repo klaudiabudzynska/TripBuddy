@@ -3,3 +3,12 @@
 .title {
   @extend .title;
 }
+
+.dates {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  max-width: 800px;
+  margin: 0 auto 50px auto;
+  row-gap: 20px;
+}

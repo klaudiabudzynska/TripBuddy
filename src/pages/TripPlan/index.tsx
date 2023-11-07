@@ -41,9 +41,11 @@ const TripPlan = () => {
       <h1 className={styles.title}>
         Trip plan to {tripPlanData?.name}, {tripDuration} days
       </h1>
-      {tripDaysTimestamps.map((tripDayTimestamp) => {
-        return <Button key={tripDayTimestamp} value={formatDate(tripDayTimestamp)} />;
-      })}
+      <div className={styles.dates}>
+        {tripDaysTimestamps.map((tripDayTimestamp) => {
+          return <Button key={tripDayTimestamp} value={formatDate(tripDayTimestamp)} />;
+        })}
+      </div>
       {tripPlanData?.locationsId.map((locationId, key) => {
         return (
           <LocationDetails

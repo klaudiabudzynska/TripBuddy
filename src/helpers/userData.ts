@@ -1,34 +1,64 @@
 const TRIP_PLANS_KEY = 'TripBuddy_trip_plans';
 
+type DayPlan = {
+  timestamp: number;
+  locationsId: string[];
+};
+
 export type TripPlanType = {
-  id: number,
-  name: string,
-  startDate?: Date,
-  endDate?: Date,
-  locationsId: string[],
+  id: number;
+  name: string;
+  startDate?: Date;
+  endDate?: Date;
+  daysPlan: DayPlan[];
+  locationsId: string[];
 };
 
 export type NewTripData = {
-  name: string,
-  startDate: Date,
-  endDate: Date,
-}
-
-export const addTripPlanToLS = ({name, startDate, endDate}: NewTripData) => {
-  const tripPlans: TripPlanType[] = getLSTripPlansList();
-  localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify([...tripPlans, {
-    id: new Date().getTime(),
-    name,
-    startDate,
-    endDate,
-    locationsId: [],
-  }]));
+  name: string;
+  startDate: Date;
+  endDate: Date;
 };
 
-export const editTripPlanLS = (id: number, {name, startDate, endDate}: NewTripData) => {
+const createDaysPlanArray = (startDate: Date, endDate: Date) => {
+  const daysPlan: DayPlan[] = [];
+
+  const tripDuration =
+    Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)) + 1;
+
+  for (let iterator = 0; iterator < tripDuration; iterator++) {
+    daysPlan.push({
+      timestamp: startDate.getTime() + iterator * 24 * 60 * 60 * 1000,
+      locationsId: [],
+    });
+  }
+
+  return daysPlan;
+};
+
+export const addTripPlanToLS = ({ name, startDate, endDate }: NewTripData) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
 
-  const index =  tripPlans.findIndex((tripPlan: TripPlanType) => {
+  localStorage.setItem(
+    TRIP_PLANS_KEY,
+    JSON.stringify([
+      ...tripPlans,
+      {
+        id: new Date().getTime(),
+        name,
+        startDate,
+        endDate,
+        daysPlan: createDaysPlanArray(startDate, endDate),
+        locationsId: [],
+      },
+    ]),
+  );
+};
+
+export const editTripPlanLS = (id: number, { name, startDate, endDate }: NewTripData) => {
+  const tripPlans: TripPlanType[] = getLSTripPlansList();
+
+  const index = tripPlans.findIndex((tripPlan: TripPlanType) => {
     return tripPlan.id === id;
   });
 
@@ -40,7 +70,8 @@ export const editTripPlanLS = (id: number, {name, startDate, endDate}: NewTripDa
     ...tripPlans[index],
     name,
     startDate,
-    endDate
+    endDate,
+    daysPlan: createDaysPlanArray(startDate, endDate),
   };
 
   localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
@@ -49,7 +80,7 @@ export const editTripPlanLS = (id: number, {name, startDate, endDate}: NewTripDa
 export const removeTripFromLS = (id: number) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
 
-  const index =  tripPlans.findIndex((tripPlan: TripPlanType) => {
+  const index = tripPlans.findIndex((tripPlan: TripPlanType) => {
     return tripPlan.id === id;
   });
 
