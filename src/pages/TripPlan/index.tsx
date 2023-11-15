@@ -71,7 +71,7 @@ const TripPlan = () => {
           <LocationDetails
             locationId={locationId}
             tripId={parseInt(id || '0')}
-            actions={[ACTIONS.addToDay, ACTIONS.delete]}
+            actions={[ACTIONS.addToDay, ACTIONS.removeFromDay, ACTIONS.delete]}
             key={key}
             callback={reloadList}
             tripDaysTimestamps={tripDaysTimestamps}

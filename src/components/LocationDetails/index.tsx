@@ -13,6 +13,7 @@ import {
   addTripPlanToLS,
   getLSTripPlansList,
   removeFromTripPlanLS,
+  removeLocationFromDay,
   TripPlanType,
 } from '../../helpers/userData.ts';
 import EditTripModal from '../Modal/components/EditTripModal';
@@ -21,6 +22,7 @@ import { formatDate } from '../../helpers/dates.ts';
 export enum ACTIONS {
   addToTrip,
   addToDay,
+  removeFromDay,
   delete,
 }
 
@@ -44,7 +46,9 @@ const LocationDetails = ({
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
   const [isAddingToTripModalOpen, setIsAddingToTripModalOpen] = useState<boolean>(false);
   const [isAddingToDayModalOpen, setIsAddingToDayModalOpen] = useState<boolean>(false);
+  const [isRemovingFromDayModalOpen, setIsRemovingFromDayModalOpen] = useState<boolean>(false);
   const [isTripModalOpen, setIsTripModalOpen] = useState<boolean>(false);
+
   const [selectedTripId, setSelectedTripId] = useState<number>(trips[0]?.id || 0);
   const [selectedDayTimestamp, setSelectedDayTimestamp] = useState<number>(
     tripDaysTimestamps ? tripDaysTimestamps[0] : 0,
@@ -83,6 +87,23 @@ const LocationDetails = ({
       locationId &&
       selectedDayTimestamp &&
       addLocationToDay(tripId, locationId, selectedDayTimestamp);
+  };
+
+  const showRemovingFromDayDialog = () => {
+    setIsRemovingFromDayModalOpen(!isRemovingFromDayModalOpen);
+  };
+
+  const cancelRemovingFromDayDialog = () => {
+    setIsRemovingFromDayModalOpen(false);
+  };
+
+  const saveRemovingFromDay = () => {
+    setIsRemovingFromDayModalOpen(false);
+    tripId &&
+      locationId &&
+      selectedDayTimestamp &&
+      removeLocationFromDay(tripId, locationId, selectedDayTimestamp);
+    callback && callback();
   };
 
   const onTripSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -155,6 +176,14 @@ const LocationDetails = ({
             onClick={showAddingToDayDialog}
           />
         )}
+        {actions?.includes(ACTIONS.removeFromDay) && (
+          <Button
+            value="Remove from a day"
+            addClass={styles.actionButton}
+            onClick={showRemovingFromDayDialog}
+            style={ButtonStyle.delete}
+          />
+        )}
         {actions?.includes(ACTIONS.delete) && (
           <Button
             value="Remove from a trip"
@@ -195,6 +224,27 @@ const LocationDetails = ({
         title="Add to a day"
         closeModal={cancelAddingToDayDialog}
         acceptAction={saveAddingToDay}
+      >
+        <>
+          <p className={styles.modalText}>Choose a day</p>
+          {tripDaysTimestamps && (
+            <select onChange={onDaySelectChange} className={styles.tripSelect}>
+              {tripDaysTimestamps.map((dayTimestamp, key) => {
+                return (
+                  <option key={key} value={dayTimestamp}>
+                    {formatDate(dayTimestamp)}
+                  </option>
+                );
+              })}
+            </select>
+          )}
+        </>
+      </Modal>
+      <Modal
+        isOpen={isRemovingFromDayModalOpen}
+        title="Remove from a day"
+        closeModal={cancelRemovingFromDayDialog}
+        acceptAction={saveRemovingFromDay}
       >
         <>
           <p className={styles.modalText}>Choose a day</p>
