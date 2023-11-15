@@ -3,25 +3,26 @@ import styles from './index.module.scss';
 import * as classNames from 'classnames';
 
 export enum ButtonStyle {
-    primary,
-    secondary,
-    delete,
+  primary,
+  secondary,
+  delete,
+  active,
 }
 
 type ButtonProps = {
   type?: 'submit' | 'reset' | 'button';
   value: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  style?: ButtonStyle
-  addClass?: any
-}
+  style?: ButtonStyle;
+  addClass?: any;
+};
 
 const Button = ({
   type = 'button',
   value,
   onClick,
   addClass,
-  style = ButtonStyle.primary
+  style = ButtonStyle.primary,
 }: ButtonProps) => {
   return (
     <button
@@ -30,7 +31,8 @@ const Button = ({
         [styles.button]: style === ButtonStyle.primary,
         [styles.buttonSecondary]: style === ButtonStyle.secondary,
         [styles.buttonDelete]: style === ButtonStyle.delete,
-        [addClass]: !!addClass
+        [styles.buttonActive]: style === ButtonStyle.active,
+        [addClass]: !!addClass,
       })}
       onClick={onClick}
     >

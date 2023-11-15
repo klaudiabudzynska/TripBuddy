@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 import { useState } from 'react';
 import ReactMapGl, { Marker } from 'react-map-gl';
 import { getLocationDetailsLS } from '../../helpers/cache.ts';
-import Button from '../../components/Button';
+import Button, { ButtonStyle } from '../../components/Button';
 import { formatDate } from '../../helpers/dates.ts';
 
 const TripPlan = () => {
@@ -46,8 +46,12 @@ const TripPlan = () => {
     setTripPlanData(getLSTripPlanById(parseInt(id || '0')));
   };
 
-  const openDayDetails = (dayTimestamp: number) => {
-    navigate(`/trip-plans/${id}/${dayTimestamp}`);
+  const openDayDetails = (timestamp: number) => {
+    if (timestamp === parseInt(dayTimestamp || '0')) {
+      navigate(`/trip-plans/${id}`);
+    } else {
+      navigate(`/trip-plans/${id}/${timestamp}`);
+    }
   };
 
   return (
@@ -61,6 +65,11 @@ const TripPlan = () => {
             <Button
               key={tripDayTimestamp}
               value={formatDate(tripDayTimestamp)}
+              style={
+                tripDayTimestamp === parseInt(dayTimestamp || '0')
+                  ? ButtonStyle.active
+                  : ButtonStyle.primary
+              }
               onClick={() => openDayDetails(tripDayTimestamp)}
             />
           );
@@ -89,7 +98,7 @@ const TripPlan = () => {
           style={{ width: 600, height: 400, margin: '0 auto 20px auto' }}
           mapStyle="mapbox://styles/mapbox/streets-v9"
         >
-          {tripPlanData?.locationsId.map((locationId, key) => {
+          {locationsToDisplay?.map((locationId, key) => {
             const locationData = getLocationDetailsLS(locationId)?.data;
             return (
               locationData && (

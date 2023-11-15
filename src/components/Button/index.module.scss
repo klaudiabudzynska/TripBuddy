@@ -46,3 +46,9 @@
     border-color: $dark-error-color;
   }
 }
+
+.buttonActive {
+  @extend .button;
+  background: $primary-color-hover;
+  border-color: $primary-color-hover;
+}
