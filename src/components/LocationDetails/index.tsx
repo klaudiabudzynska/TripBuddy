@@ -82,8 +82,11 @@ const LocationDetails = ({ locationId, tripId, actions, callback }: LocationDeta
   };
 
   const saveTrip = (name: string, startDate: Date, endDate: Date) => {
-    setIsTripModalOpen(false);
     addTripPlanToLS({ name, startDate, endDate });
+    const newTrips: TripPlanType[] = getLSTripPlansList() || [];
+
+    setSelectedTripId(selectedTripId || newTrips[0]?.id || 0);
+    setIsTripModalOpen(false);
   };
 
   const closeTripDialog = () => {
