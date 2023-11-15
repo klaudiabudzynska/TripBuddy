@@ -51,9 +51,10 @@ const TripPlan = () => {
           <LocationDetails
             locationId={locationId}
             tripId={parseInt(id || '0')}
-            actions={[ACTIONS.delete]}
+            actions={[ACTIONS.addToDay, ACTIONS.delete]}
             key={key}
             callback={reloadList}
+            tripDaysTimestamps={tripDaysTimestamps}
           />
         );
       })}

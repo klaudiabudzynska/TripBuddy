@@ -8,6 +8,7 @@ import Photos from './Photos';
 import { LocationDetailsType } from './typings.ts';
 import styles from './index.module.scss';
 import {
+  addLocationToDay,
   addLocationToTripPlanLS,
   addTripPlanToLS,
   getLSTripPlansList,
@@ -15,26 +16,39 @@ import {
   TripPlanType,
 } from '../../helpers/userData.ts';
 import EditTripModal from '../Modal/components/EditTripModal';
+import { formatDate } from '../../helpers/dates.ts';
 
 export enum ACTIONS {
-  add,
+  addToTrip,
+  addToDay,
   delete,
 }
 
 type LocationDetailsProps = {
   locationId?: string;
   tripId?: number;
+  tripDaysTimestamps?: number[];
   actions?: ACTIONS[];
   callback?: () => void;
 };
 
-const LocationDetails = ({ locationId, tripId, actions, callback }: LocationDetailsProps) => {
+const LocationDetails = ({
+  locationId,
+  tripId,
+  tripDaysTimestamps,
+  actions,
+  callback,
+}: LocationDetailsProps) => {
   const trips: TripPlanType[] = getLSTripPlansList() || [];
 
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isAddingToTripModalOpen, setIsAddingToTripModalOpen] = useState<boolean>(false);
+  const [isAddingToDayModalOpen, setIsAddingToDayModalOpen] = useState<boolean>(false);
   const [isTripModalOpen, setIsTripModalOpen] = useState<boolean>(false);
   const [selectedTripId, setSelectedTripId] = useState<number>(trips[0]?.id || 0);
+  const [selectedDayTimestamp, setSelectedDayTimestamp] = useState<number>(
+    tripDaysTimestamps ? tripDaysTimestamps[0] : 0,
+  );
 
   useEffect(() => {
     if (locationId) {
@@ -42,21 +56,41 @@ const LocationDetails = ({ locationId, tripId, actions, callback }: LocationDeta
     }
   }, [locationId]);
 
-  const showAddingDialog = () => {
-    setIsModalOpen(!isModalOpen);
+  const showAddingToTripDialog = () => {
+    setIsAddingToTripModalOpen(!isAddingToTripModalOpen);
   };
 
-  const cancelAddingDialog = () => {
-    setIsModalOpen(false);
+  const cancelAddingToTripDialog = () => {
+    setIsAddingToTripModalOpen(false);
   };
 
   const saveAddingTrip = () => {
-    setIsModalOpen(false);
+    setIsAddingToTripModalOpen(false);
     locationId && addLocationToTripPlanLS(selectedTripId, locationId);
+  };
+
+  const showAddingToDayDialog = () => {
+    setIsAddingToDayModalOpen(!isAddingToDayModalOpen);
+  };
+
+  const cancelAddingToDayDialog = () => {
+    setIsAddingToDayModalOpen(false);
+  };
+
+  const saveAddingToDay = () => {
+    setIsAddingToDayModalOpen(false);
+    tripId &&
+      locationId &&
+      selectedDayTimestamp &&
+      addLocationToDay(tripId, locationId, selectedDayTimestamp);
   };
 
   const onTripSelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setSelectedTripId(parseInt(e.currentTarget.value));
+  };
+
+  const onDaySelectChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    setSelectedDayTimestamp(parseInt(e.currentTarget.value));
   };
 
   const getLocationDetails = (locationId: string) => {
@@ -107,8 +141,19 @@ const LocationDetails = ({ locationId, tripId, actions, callback }: LocationDeta
 
       <Photos locationId={location_id} />
       <div className={styles.actions}>
-        {actions?.includes(ACTIONS.add) && (
-          <Button value="Add to a trip" addClass={styles.actionButton} onClick={showAddingDialog} />
+        {actions?.includes(ACTIONS.addToTrip) && (
+          <Button
+            value="Add to a trip"
+            addClass={styles.actionButton}
+            onClick={showAddingToTripDialog}
+          />
+        )}
+        {actions?.includes(ACTIONS.addToDay) && (
+          <Button
+            value="Add to a day"
+            addClass={styles.actionButton}
+            onClick={showAddingToDayDialog}
+          />
         )}
         {actions?.includes(ACTIONS.delete) && (
           <Button
@@ -120,9 +165,9 @@ const LocationDetails = ({ locationId, tripId, actions, callback }: LocationDeta
         )}
       </div>
       <Modal
-        isOpen={isModalOpen}
+        isOpen={isAddingToTripModalOpen}
         title="Add to a trip"
-        closeModal={cancelAddingDialog}
+        closeModal={cancelAddingToTripDialog}
         acceptAction={saveAddingTrip}
       >
         <>
@@ -143,6 +188,27 @@ const LocationDetails = ({ locationId, tripId, actions, callback }: LocationDeta
             onClick={openNewTripModal}
             addClass={styles.addNewTripButton}
           />
+        </>
+      </Modal>
+      <Modal
+        isOpen={isAddingToDayModalOpen}
+        title="Add to a day"
+        closeModal={cancelAddingToDayDialog}
+        acceptAction={saveAddingToDay}
+      >
+        <>
+          <p className={styles.modalText}>Choose a day</p>
+          {tripDaysTimestamps && (
+            <select onChange={onDaySelectChange} className={styles.tripSelect}>
+              {tripDaysTimestamps.map((dayTimestamp, key) => {
+                return (
+                  <option key={key} value={dayTimestamp}>
+                    {formatDate(dayTimestamp)}
+                  </option>
+                );
+              })}
+            </select>
+          )}
         </>
       </Modal>
       <EditTripModal

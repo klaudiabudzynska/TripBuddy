@@ -55,6 +55,35 @@ export const addTripPlanToLS = ({ name, startDate, endDate }: NewTripData) => {
   );
 };
 
+export const addLocationToDay = (tripId: number, locationId: string, dayTimestamp: number) => {
+  const tripPlans: TripPlanType[] = getLSTripPlansList();
+
+  const index = tripPlans.findIndex((tripPlan: TripPlanType) => {
+    return tripPlan.id === tripId;
+  });
+
+  if (index === -1) {
+    return;
+  }
+
+  const newDaysPlan = tripPlans[index].daysPlan;
+
+  const dayIndex = newDaysPlan.findIndex((dayPlan: DayPlan) => {
+    return dayPlan.timestamp === dayTimestamp;
+  });
+
+  newDaysPlan[dayIndex].locationsId.push(locationId);
+
+  tripPlans[index] = {
+    ...tripPlans[index],
+    daysPlan: newDaysPlan,
+  };
+
+  console.log(tripPlans);
+
+  localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
+};
+
 export const editTripPlanLS = (id: number, { name, startDate, endDate }: NewTripData) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
 
