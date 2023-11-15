@@ -1,5 +1,9 @@
-import { useParams } from 'react-router-dom';
-import { getLSTripPlanById, TripPlanType } from '../../helpers/userData.ts';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  getLSTripDayLocationsId,
+  getLSTripPlanById,
+  TripPlanType,
+} from '../../helpers/userData.ts';
 import LocationDetails, { ACTIONS } from '../../components/LocationDetails';
 import styles from './index.module.scss';
 import { useState } from 'react';
@@ -9,12 +13,18 @@ import Button from '../../components/Button';
 import { formatDate } from '../../helpers/dates.ts';
 
 const TripPlan = () => {
-  const { id } = useParams();
+  const { id, dayTimestamp } = useParams();
+  const navigate = useNavigate();
   const [tripPlanData, setTripPlanData] = useState<TripPlanType | undefined>(
     getLSTripPlanById(parseInt(id || '0')),
   );
+  const locationIdsByDay = getLSTripDayLocationsId(
+    parseInt(id || '0'),
+    parseInt(dayTimestamp || '0'),
+  );
+  const locationsToDisplay = dayTimestamp ? locationIdsByDay : tripPlanData?.locationsId;
 
-  const firstLocationId = tripPlanData?.locationsId[0] || '0';
+  const firstLocationId = locationsToDisplay ? locationsToDisplay[0] : '0';
   const firstLocationData = getLocationDetailsLS(firstLocationId);
 
   const startDate = new Date(tripPlanData?.startDate || 0);
@@ -36,6 +46,10 @@ const TripPlan = () => {
     setTripPlanData(getLSTripPlanById(parseInt(id || '0')));
   };
 
+  const openDayDetails = (dayTimestamp: number) => {
+    navigate(`/trip-plans/${id}/${dayTimestamp}`);
+  };
+
   return (
     <div>
       <h1 className={styles.title}>
@@ -43,10 +57,16 @@ const TripPlan = () => {
       </h1>
       <div className={styles.dates}>
         {tripDaysTimestamps.map((tripDayTimestamp) => {
-          return <Button key={tripDayTimestamp} value={formatDate(tripDayTimestamp)} />;
+          return (
+            <Button
+              key={tripDayTimestamp}
+              value={formatDate(tripDayTimestamp)}
+              onClick={() => openDayDetails(tripDayTimestamp)}
+            />
+          );
         })}
       </div>
-      {tripPlanData?.locationsId.map((locationId, key) => {
+      {locationsToDisplay?.map((locationId, key) => {
         return (
           <LocationDetails
             locationId={locationId}

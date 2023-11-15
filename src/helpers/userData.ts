@@ -168,3 +168,13 @@ export const getLSTripPlanById = (id: number): TripPlanType | undefined => {
     return tripPlan.id === id;
   });
 };
+
+export const getLSTripDayLocationsId = (id: number, dayTimestamp: number): string[] | undefined => {
+  const tripPlan = getLSTripPlanById(id);
+
+  const dayPlan = tripPlan?.daysPlan.find((dayPlan: DayPlan) => {
+    return dayPlan.timestamp === dayTimestamp;
+  });
+
+  return dayPlan?.locationsId;
+};
