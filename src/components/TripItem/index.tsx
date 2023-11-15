@@ -5,6 +5,7 @@ import { editTripPlanLS, removeTripFromLS, TripPlanType } from '../../helpers/us
 import Button, { ButtonStyle } from '../Button';
 import EditTripModal from '../Modal/components/EditTripModal';
 import { formatDate } from '../../helpers/dates.ts';
+import Photos from '../LocationDetails/Photos';
 
 type TripItemProps = {
   changeCallback: () => void;
@@ -13,7 +14,7 @@ type TripItemProps = {
 
 const TripItem = ({
   changeCallback,
-  tripData: { id, name, startDate, endDate },
+  tripData: { id, name, startDate, endDate, locationsId },
 }: TripItemProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const startDateFormat = new Date(startDate || 0);
@@ -43,7 +44,11 @@ const TripItem = ({
   return (
     <>
       <Link className={styles.tripItem} to={`/trip-plans/${id}`}>
-        <div className={styles.imagePlaceholder}></div>
+        {locationsId.length === 0 ? (
+          <div className={styles.imagePlaceholder}></div>
+        ) : (
+          <Photos locationId={locationsId[0]} addClass={styles.photos} />
+        )}
         <div className={styles.tripData}>
           <h3 className={styles.title}>{name}</h3>
           <div>

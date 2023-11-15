@@ -1,5 +1,6 @@
 export type PhotosProps = {
   locationId: string;
+  addClass?: any;
 };
 
 export type LocationDetailPhoto = {

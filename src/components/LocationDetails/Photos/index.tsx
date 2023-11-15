@@ -3,6 +3,7 @@ import { callProxy } from '../../../helpers/fetch.ts';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { getLocationPhotosLS, setLocationPhotosLS } from '../../../helpers/cache.ts';
+import * as classNames from 'classnames';
 
 const fetchPhotos = async (locationId: PhotosProps['locationId']) => {
   const res: { data: LocationDetailPhoto[] } = await callProxy('/tripadvisor-api/location-photos', {
@@ -12,7 +13,7 @@ const fetchPhotos = async (locationId: PhotosProps['locationId']) => {
   return res.data;
 };
 
-const Photos = ({ locationId }: PhotosProps) => {
+const Photos = ({ locationId, addClass }: PhotosProps) => {
   const [data, setData] = useState<LocationDetailPhoto[]>();
 
   useEffect(() => {
@@ -27,7 +28,11 @@ const Photos = ({ locationId }: PhotosProps) => {
   }, [locationId]);
 
   return data ? (
-    <div className={styles.container}>
+    <div
+      className={classNames(styles.container, {
+        [addClass]: !!addClass,
+      })}
+    >
       {data.map((photo) => {
         const { url } = photo.images.large || {};
 

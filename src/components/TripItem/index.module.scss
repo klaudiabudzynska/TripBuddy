@@ -23,11 +23,26 @@
 
 .imagePlaceholder {
   background: $neutral-color;
-  height: 150px;
+  height: 200px;
   width: 100%;
 
   @media (min-width: $md-breakpoint) {
     width: 200px;
+  }
+}
+
+.photos {
+  height: 200px;
+  overflow: hidden;
+  width: 100%;
+
+  @media (min-width: $md-breakpoint) {
+    width: 200px;
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
   }
 }
 
