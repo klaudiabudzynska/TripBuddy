@@ -4,7 +4,7 @@ import { LocationDetailPhoto } from '../components/LocationDetails/Photos/typing
 const LOCATION_DETAILS_KEY = 'TripBuddy_locations_details';
 const LOCATION_PHOTOS_KEY = 'TripBuddy_locations_photos';
 
-type LocationDetailField = {
+export type LocationDetailField = {
   locationId: string;
   data: LocationDetailsType;
 };

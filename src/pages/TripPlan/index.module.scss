@@ -4,6 +4,32 @@
   @extend .title;
 }
 
+.subtitle {
+  @extend .subtitle;
+}
+
+.noteBox {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.noteData {
+  @extend .input;
+
+  display: block;
+  margin-bottom: 20px;
+  max-width: 800px;
+}
+
+.noteText {
+  @extend .text;
+
+  max-width: 800px;
+  width: 100%;
+}
+
 .dates {
   display: flex;
   flex-wrap: wrap;

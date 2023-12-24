@@ -12,6 +12,7 @@ export type TripPlanType = {
   endDate?: Date;
   daysPlan: DayPlan[];
   locationsId: string[];
+  notes: string;
 };
 
 export type NewTripData = {
@@ -50,6 +51,7 @@ export const addTripPlanToLS = ({ name, startDate, endDate }: NewTripData) => {
         endDate,
         daysPlan: createDaysPlanArray(startDate, endDate),
         locationsId: [],
+        notes: '',
       },
     ]),
   );
@@ -113,7 +115,7 @@ export const removeLocationFromDay = (tripId: number, locationId: string, dayTim
   localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
 };
 
-export const editTripPlanLS = (id: number, { name, startDate, endDate }: NewTripData) => {
+export const editTripPlanLS = (id: number, { name, startDate, endDate }: NewTripData, notes?: string) => {
   const tripPlans: TripPlanType[] = getLSTripPlansList();
 
   const index = tripPlans.findIndex((tripPlan: TripPlanType) => {
@@ -124,11 +126,14 @@ export const editTripPlanLS = (id: number, { name, startDate, endDate }: NewTrip
     return;
   }
 
+  const newNotes = notes ? notes: tripPlans[index].notes;
+
   tripPlans[index] = {
     ...tripPlans[index],
     name,
     startDate,
     endDate,
+    notes: newNotes,
     daysPlan: createDaysPlanArray(startDate, endDate),
   };
 

@@ -25,13 +25,14 @@
 
 .buttonSecondary {
   @extend .button;
-  background: $light-color;
-  border-color: $light-color;
+  background: transparent;
+  border-color: $primary-color;
   color: $dark-color;
 
   &:hover {
-    background: $neutral-color;
-    border-color: $neutral-color;
+    background: $primary-color-hover;
+    border-color: $primary-color-hover;
+    color: $light-color;
   }
 }
 

@@ -1,16 +1,17 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  editTripPlanLS,
   getLSTripDayLocationsId,
   getLSTripPlanById,
   TripPlanType,
 } from '../../helpers/userData.ts';
 import LocationDetails, { ACTIONS } from '../../components/LocationDetails';
 import styles from './index.module.scss';
-import { useState } from 'react';
-import ReactMapGl, { Marker } from 'react-map-gl';
+import {ChangeEvent, useState} from 'react';
 import { getLocationDetailsLS } from '../../helpers/cache.ts';
 import Button, { ButtonStyle } from '../../components/Button';
 import { formatDate } from '../../helpers/dates.ts';
+import Map from '../../components/Map';
 
 const TripPlan = () => {
   const { id, dayTimestamp } = useParams();
@@ -18,6 +19,8 @@ const TripPlan = () => {
   const [tripPlanData, setTripPlanData] = useState<TripPlanType | undefined>(
     getLSTripPlanById(parseInt(id || '0')),
   );
+  const [note, setNote] = useState<string>(tripPlanData?.notes || '');
+  const [isEditNote, setIsEditNote] = useState<boolean>(false);
   const locationIdsByDay = getLSTripDayLocationsId(
     parseInt(id || '0'),
     parseInt(dayTimestamp || '0'),
@@ -54,11 +57,44 @@ const TripPlan = () => {
     }
   };
 
+  const handleNoteChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(event.target.value);
+  };
+
+  const saveNote = () => {
+    editTripPlanLS(
+      parseInt(id),
+      {
+        name: tripPlanData?.name || '',
+        startDate,
+        endDate
+      },
+      note
+    );
+    setIsEditNote(false);
+  };
+
   return (
     <div>
       <h1 className={styles.title}>
         Trip plan to {tripPlanData?.name}, {tripDuration} days
       </h1>
+      <div className={styles.noteBox}>
+        <h2 className={styles.subtitle}>Trip notes</h2>
+        {!isEditNote &&
+          <p className={styles.noteText} onClick={() => setIsEditNote(true)}>{note}</p>
+        }
+        {isEditNote &&
+          <>
+            <textarea
+              className={styles.noteData}
+              onChange={handleNoteChange}
+              defaultValue={note}
+            />
+            <Button value="Save note" onClick={saveNote}/>
+          </>
+        }
+      </div>
       <div className={styles.dates}>
         {tripDaysTimestamps.map((tripDayTimestamp) => {
           return (
@@ -68,7 +104,7 @@ const TripPlan = () => {
               style={
                 tripDayTimestamp === parseInt(dayTimestamp || '0')
                   ? ButtonStyle.active
-                  : ButtonStyle.primary
+                  : ButtonStyle.secondary
               }
               onClick={() => openDayDetails(tripDayTimestamp)}
             />
@@ -87,31 +123,9 @@ const TripPlan = () => {
           />
         );
       })}
-      {firstLocationData && (
-        <ReactMapGl
-          initialViewState={{
-            latitude: parseFloat(firstLocationData?.data.latitude || '0'),
-            longitude: parseFloat(firstLocationData?.data.longitude || '0'),
-            zoom: 10,
-          }}
-          mapboxAccessToken={import.meta.env.VITE_MAPS_API_KEY}
-          style={{ width: 600, height: 400, margin: '0 auto 20px auto' }}
-          mapStyle="mapbox://styles/mapbox/streets-v9"
-        >
-          {locationsToDisplay?.map((locationId, key) => {
-            const locationData = getLocationDetailsLS(locationId)?.data;
-            return (
-              locationData && (
-                <Marker
-                  key={key}
-                  longitude={parseFloat(locationData?.longitude || '0')}
-                  latitude={parseFloat(locationData?.latitude || '0')}
-                />
-              )
-            );
-          })}
-        </ReactMapGl>
-      )}
+      {/*{firstLocationData && (*/}
+      {/*  <Map locationData={firstLocationData} locationsToDisplay={locationsToDisplay} />*/}
+      {/*)}*/}
     </div>
   );
 };
