@@ -11,7 +11,7 @@ export enum ButtonStyle {
 
 type ButtonProps = {
   type?: 'submit' | 'reset' | 'button';
-  value: string;
+  value: any;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   style?: ButtonStyle;
   addClass?: any;

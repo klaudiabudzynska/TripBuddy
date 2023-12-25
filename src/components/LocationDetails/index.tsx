@@ -18,6 +18,10 @@ import {
 } from '../../helpers/userData.ts';
 import EditTripModal from '../Modal/components/EditTripModal';
 import { formatDate } from '../../helpers/dates.ts';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export enum ACTIONS {
   addToTrip,
@@ -157,42 +161,43 @@ const LocationDetails = ({
         <span className={classNames(styles.text, styles.location)}>
           {address_obj?.address_string}, {address_obj?.country}
         </span>
+        <div className={styles.actions}>
+          {actions?.includes(ACTIONS.addToTrip) && (
+            <Button
+              value={<FontAwesomeIcon icon={faPlus} />}
+              addClass={styles.actionButton}
+              onClick={showAddingToTripDialog}
+            />
+          )}
+          {actions?.includes(ACTIONS.addToDay) && (
+            <Button
+              value={<FontAwesomeIcon icon={faCalendar} />}
+              addClass={styles.actionButton}
+              onClick={showAddingToDayDialog}
+            />
+          )}
+          {actions?.includes(ACTIONS.removeFromDay) && (
+            <Button
+              value={<FontAwesomeIcon icon={faCalendar} />}
+              addClass={styles.actionButton}
+              onClick={showRemovingFromDayDialog}
+              style={ButtonStyle.delete}
+            />
+          )}
+          {actions?.includes(ACTIONS.delete) && (
+            <Button
+              value={<FontAwesomeIcon icon={faTrash} />}
+              addClass={styles.actionButton}
+              onClick={removeFromTripPlan}
+              style={ButtonStyle.delete}
+            />
+          )}
+        </div>
         <p className={classNames(styles.text, styles.description)}>{description}</p>
       </div>
 
       <Photos locationId={location_id} />
-      <div className={styles.actions}>
-        {actions?.includes(ACTIONS.addToTrip) && (
-          <Button
-            value="Add to a trip"
-            addClass={styles.actionButton}
-            onClick={showAddingToTripDialog}
-          />
-        )}
-        {actions?.includes(ACTIONS.addToDay) && (
-          <Button
-            value="Add to a day"
-            addClass={styles.actionButton}
-            onClick={showAddingToDayDialog}
-          />
-        )}
-        {actions?.includes(ACTIONS.removeFromDay) && (
-          <Button
-            value="Remove from a day"
-            addClass={styles.actionButton}
-            onClick={showRemovingFromDayDialog}
-            style={ButtonStyle.delete}
-          />
-        )}
-        {actions?.includes(ACTIONS.delete) && (
-          <Button
-            value="Remove from a trip"
-            addClass={styles.actionButton}
-            onClick={removeFromTripPlan}
-            style={ButtonStyle.delete}
-          />
-        )}
-      </div>
+
       <Modal
         isOpen={isAddingToTripModalOpen}
         title="Add to a trip"

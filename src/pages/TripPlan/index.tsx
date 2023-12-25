@@ -82,7 +82,12 @@ const TripPlan = () => {
       <div className={styles.noteBox}>
         <h2 className={styles.subtitle}>Trip notes</h2>
         {!isEditNote &&
-          <p className={styles.noteText} onClick={() => setIsEditNote(true)}>{note}</p>
+          <pre
+            className={styles.noteText}
+            onClick={() => setIsEditNote(true)}
+          >
+            {note}
+          </pre>
         }
         {isEditNote &&
           <>
