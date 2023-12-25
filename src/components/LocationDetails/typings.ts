@@ -7,5 +7,8 @@ export type LocationDetailsType = {
   };
   description?: string;
   latitude?: string;
-  longitude?: string
+  longitude?: string;
+  email?: string;
+  website?: string;
+  phone?: string;
 };

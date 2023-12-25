@@ -22,6 +22,7 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Link} from 'react-router-dom';
 
 export enum ACTIONS {
   addToTrip,
@@ -155,7 +156,7 @@ const LocationDetails = ({
   const { location_id, name, address_obj, description } = locationDetails;
 
   return location_id ? (
-    <div className={styles.container}>
+    <Link to={`/location/${location_id}`} className={styles.container}>
       <div className={styles.details}>
         <h2 className={classNames(styles.text, styles.title)}>{name}</h2>
         <span className={classNames(styles.text, styles.location)}>
@@ -271,7 +272,7 @@ const LocationDetails = ({
         saveTrip={saveTrip}
         closeModal={closeTripDialog}
       />
-    </div>
+    </Link>
   ) : null;
 };
 

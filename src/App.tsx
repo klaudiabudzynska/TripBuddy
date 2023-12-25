@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Main from './pages/Main';
 import ErrorPage from './pages/Error';
+import LocationPage from './pages/LocationPage';
 import LocationSearch from './pages/LocationSearch';
 import TripPlans from './pages/TripPlans';
 import TripPlan from './pages/TripPlan';
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <LocationSearch />,
+      },
+      {
+        path: 'location/:id',
+        element: <LocationPage />,
       },
       {
         path: 'trip-plans',
