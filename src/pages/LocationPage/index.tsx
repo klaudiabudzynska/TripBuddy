@@ -6,7 +6,7 @@ import Photos from '../../components/LocationDetails/Photos';
 import {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import styles from '../../components/LocationDetails/index.module.scss';
+import styles from './index.module.scss';
 import Button from '../../components/Button';
 import AddToTripModal from '../../components/Modal/components/AddToTripModal';
 
@@ -33,24 +33,31 @@ const LocationPage = () => {
     return;
   }
 
-  console.log(locationData.data);
-
   const {name, description, address_obj, phone, email, website} = locationData?.data || {};
 
-  return <div>
-    <h1>{name}</h1>
-    <p>{address_obj?.address_string}</p>
+  return <div className={styles.container}>
+    <h1 className={styles.title}>{name}</h1>
+    <p className={styles.text}>{address_obj?.address_string}</p>
     <Photos locationId={id} />
     <Button
       value={<FontAwesomeIcon icon={faPlus} />}
       addClass={styles.actionButton}
       onClick={showAddingToTripDialog}
     />
-    <p>{description}</p>
-    <h2>Contact</h2>
-    <p>{website}</p>
-    <p>{email}</p>
-    <p>{phone}</p>
+    <p className={styles.text}>{description}</p>
+    {(website || phone || email) && <h2 className={styles.subtitle}>Contact</h2>}
+    {website &&
+      <p className={styles.text}>Website:
+        <a href={website} target="_blank" rel="noreferrer">{website}</a>
+      </p>
+    }
+    {email &&
+      <p className={styles.text}>Email address: {email}</p>
+    }
+    {phone &&
+      <p className={styles.text}>Phone number: {phone}</p>
+    }
+
     <AddToTripModal
       isModalOpen={isAddingToTripModalOpen}
       locationId={id}

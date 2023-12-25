@@ -1,0 +1,25 @@
+@import "../../styles/common";
+
+.container {
+  box-sizing: border-box;
+  max-width: 800px;
+  padding-inline: 50px;
+  width: 100%;
+}
+
+.title {
+  @extend .title;
+}
+
+.text {
+  @extend .text;
+}
+
+.subtitle {
+  @extend .subtitle;
+}
+
+.actionButton {
+  margin: 20px 0;
+  padding: 10px 15px;
+}

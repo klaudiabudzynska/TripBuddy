@@ -24,6 +24,11 @@ const Button = ({
   addClass,
   style = ButtonStyle.primary,
 }: ButtonProps) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onClick && onClick(event);
+  };
+
   return (
     <button
       type={type}
@@ -34,7 +39,7 @@ const Button = ({
         [styles.buttonActive]: style === ButtonStyle.active,
         [addClass]: !!addClass,
       })}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {value}
     </button>
