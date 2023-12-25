@@ -1,5 +1,12 @@
 @import "../../styles/common";
 
+.container {
+  margin-inline: auto;
+  max-width: 900px;
+  padding-inline: 50px;
+  width: 100%;
+}
+
 .title {
   @extend .title;
 }
@@ -9,5 +16,5 @@
 }
 
 .tripsList {
-  margin: 20px 10px;
+  margin-block: 20px;
 }

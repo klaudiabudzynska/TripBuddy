@@ -30,7 +30,7 @@ function TripPlans() {
     setTrips(getLSTripPlansList() || []);
   }, [isModalOpen]);
 
-  return <div>
+  return <div className={styles.container}>
     <h1 className={styles.title}>Your trip plans</h1>
     <Button value="Create your trip" onClick={showAddingDialog} />
     <div className={styles.tripsList}>
