@@ -47,7 +47,7 @@ const LocationPage = () => {
     <p className={styles.text}>{description}</p>
     {(website || phone || email) && <h2 className={styles.subtitle}>Contact</h2>}
     {website &&
-      <p className={styles.text}>Website:
+      <p className={styles.text}>Website:&nbsp;
         <a href={website} target="_blank" rel="noreferrer">{website}</a>
       </p>
     }
