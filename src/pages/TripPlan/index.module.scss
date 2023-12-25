@@ -30,6 +30,11 @@
   width: 100%;
 }
 
+.noteButtons {
+  display: flex;
+  justify-content: center;
+}
+
 .dates {
   display: flex;
   flex-wrap: wrap;

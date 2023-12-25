@@ -1,17 +1,11 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import {
-  editTripPlanLS,
-  getLSTripDayLocationsId,
-  getLSTripPlanById,
-  TripPlanType,
-} from '../../helpers/userData.ts';
-import LocationDetails, { ACTIONS } from '../../components/LocationDetails';
+import {useNavigate, useParams} from 'react-router-dom';
+import {editTripPlanLS, getLSTripDayLocationsId, getLSTripPlanById, TripPlanType,} from '../../helpers/userData.ts';
+import LocationDetails, {ACTIONS} from '../../components/LocationDetails';
 import styles from './index.module.scss';
 import {ChangeEvent, useState} from 'react';
-import { getLocationDetailsLS } from '../../helpers/cache.ts';
-import Button, { ButtonStyle } from '../../components/Button';
-import { formatDate } from '../../helpers/dates.ts';
-import Map from '../../components/Map';
+import {getLocationDetailsLS} from '../../helpers/cache.ts';
+import Button, {ButtonStyle} from '../../components/Button';
+import {formatDate} from '../../helpers/dates.ts';
 
 const TripPlan = () => {
   const { id, dayTimestamp } = useParams();
@@ -74,6 +68,11 @@ const TripPlan = () => {
     setIsEditNote(false);
   };
 
+  const cancelNote = () => {
+    setNote(tripPlanData?.notes || '');
+    setIsEditNote(false);
+  };
+
   return (
     <div>
       <h1 className={styles.title}>
@@ -96,7 +95,10 @@ const TripPlan = () => {
               onChange={handleNoteChange}
               defaultValue={note}
             />
-            <Button value="Save note" onClick={saveNote}/>
+            <div className={styles.noteButtons}>
+              <Button value="Save note" onClick={saveNote}/>
+              <Button value="Cancel" style={ButtonStyle.secondary} onClick={cancelNote}/>
+            </div>
           </>
         }
       </div>
