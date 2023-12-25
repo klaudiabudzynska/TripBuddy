@@ -16,12 +16,6 @@
     flex-direction: row;
     margin: 0 auto 50px auto;
   }
-
-  &:hover {
-    .actions {
-      display: flex;
-    }
-  }
 }
 
 .actionButton {
@@ -69,7 +63,7 @@
   }
 
   @media (min-width: $md-breakpoint) {
-    -webkit-line-clamp: 7;
+    -webkit-line-clamp: 5;
   }
 }
 
