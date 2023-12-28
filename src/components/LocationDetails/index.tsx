@@ -15,8 +15,7 @@ import {
 } from '../../helpers/userData.ts';
 import { formatDate } from '../../helpers/dates.ts';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 
@@ -32,6 +31,7 @@ type LocationDetailsProps = {
   tripId?: number;
   tripDaysTimestamps?: number[];
   actions?: ACTIONS[];
+  allowNotes?: boolean;
   callback?: () => void;
 };
 
@@ -40,6 +40,7 @@ const LocationDetails = ({
   tripId,
   tripDaysTimestamps,
   actions,
+  allowNotes,
   callback,
 }: LocationDetailsProps) => {
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
@@ -122,49 +123,55 @@ const LocationDetails = ({
   const { location_id, name, address_obj, description } = locationDetails;
 
   return location_id ? (
-    <Link to={`/location/${location_id}`} className={styles.container}>
-      <div className={styles.details}>
-        <h2 className={classNames(styles.text, styles.title)}>{name}</h2>
-        <span className={classNames(styles.text, styles.location)}>
-          {address_obj?.address_string}, {address_obj?.country}
-        </span>
-        <div className={styles.actions}>
-          {actions?.includes(ACTIONS.addToTrip) && (
-            <Button
-              value={<FontAwesomeIcon icon={faPlus} />}
-              addClass={styles.actionButton}
-              onClick={showAddingToTripDialog}
-            />
-          )}
-          {actions?.includes(ACTIONS.addToDay) && (
-            <Button
-              value={<FontAwesomeIcon icon={faCalendar} />}
-              addClass={styles.actionButton}
-              onClick={showAddingToDayDialog}
-            />
-          )}
-          {actions?.includes(ACTIONS.removeFromDay) && (
-            <Button
-              value={<FontAwesomeIcon icon={faCalendar} />}
-              addClass={styles.actionButton}
-              onClick={showRemovingFromDayDialog}
-              style={ButtonStyle.delete}
-            />
-          )}
-          {actions?.includes(ACTIONS.delete) && (
-            <Button
-              value={<FontAwesomeIcon icon={faTrash} />}
-              addClass={styles.actionButton}
-              onClick={removeFromTripPlan}
-              style={ButtonStyle.delete}
-            />
-          )}
-        </div>
-        <p className={classNames(styles.text, styles.description)}>{description}</p>
+    <>
+      <div>
+        <Link to={`/location/${location_id}`} className={styles.container}>
+          <div className={styles.details}>
+            <h2 className={classNames(styles.text, styles.title)}>{name}</h2>
+            <span className={classNames(styles.text, styles.location)}>
+              {address_obj?.address_string}, {address_obj?.country}
+            </span>
+            <div className={styles.actions}>
+              {actions?.includes(ACTIONS.addToTrip) && (
+                <Button
+                  value={<FontAwesomeIcon icon={faPlus} />}
+                  addClass={styles.actionButton}
+                  onClick={showAddingToTripDialog}
+                />
+              )}
+              {actions?.includes(ACTIONS.addToDay) && (
+                <Button
+                  value={<FontAwesomeIcon icon={faCalendar} />}
+                  addClass={styles.actionButton}
+                  onClick={showAddingToDayDialog}
+                />
+              )}
+              {actions?.includes(ACTIONS.removeFromDay) && (
+                <Button
+                  value={<FontAwesomeIcon icon={faCalendar} />}
+                  addClass={styles.actionButton}
+                  onClick={showRemovingFromDayDialog}
+                  style={ButtonStyle.delete}
+                />
+              )}
+              {actions?.includes(ACTIONS.delete) && (
+                <Button
+                  value={<FontAwesomeIcon icon={faTrash} />}
+                  addClass={styles.actionButton}
+                  onClick={removeFromTripPlan}
+                  style={ButtonStyle.delete}
+                />
+              )}
+            </div>
+            <p className={classNames(styles.text, styles.description)}>{description}</p>
+          </div>
+
+          <Photos locationId={location_id} />
+        </Link>
+        {allowNotes &&
+        <p>abc</p>
+        }
       </div>
-
-      <Photos locationId={location_id} />
-
       <AddToTripModal
         isModalOpen={isAddingToTripModalOpen}
         locationId={location_id}
@@ -213,7 +220,7 @@ const LocationDetails = ({
           )}
         </>
       </Modal>
-    </Link>
+    </>
   ) : null;
 };
 

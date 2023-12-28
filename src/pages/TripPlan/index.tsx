@@ -127,6 +127,7 @@ const TripPlan = () => {
             key={key}
             callback={reloadList}
             tripDaysTimestamps={tripDaysTimestamps}
+            allowNotes={true}
           />
         );
       })}

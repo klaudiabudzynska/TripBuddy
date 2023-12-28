@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { callProxy } from '../../helpers/fetch.ts';
 import LocationDetails, { ACTIONS } from '../LocationDetails';
 import { LocationDetailsType } from '../LocationDetails/typings.ts';
@@ -41,7 +41,11 @@ const Search = () => {
           defaultValue={locationInput}
           onChange={(e) => setLocationInput(e.target.value)}
         />
-        <Button type="submit" value="Search" />
+        <Button
+          type="submit"
+          preventDefault={false}
+          value="Search"
+        />
       </form>
       {locationsDetails ? (
         locationsDetails.map((locationDetails, key) => (

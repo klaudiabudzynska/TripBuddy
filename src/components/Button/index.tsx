@@ -15,6 +15,7 @@ type ButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   style?: ButtonStyle;
   addClass?: any;
+  preventDefault?: boolean;
 };
 
 const Button = ({
@@ -23,9 +24,10 @@ const Button = ({
   onClick,
   addClass,
   style = ButtonStyle.primary,
+  preventDefault = true,
 }: ButtonProps) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    preventDefault && event.preventDefault();
     onClick && onClick(event);
   };
 
