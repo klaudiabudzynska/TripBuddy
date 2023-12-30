@@ -20,7 +20,7 @@ type AddTripModalProps = {
 
 const CustomDateInput = forwardRef(
   ({ value, onClick }: RefData, ref: React.Ref<HTMLInputElement>) => {
-    return <input className={styles.input} onClick={onClick} ref={ref} defaultValue={value} />;
+    return <input className={styles.input} onClick={onClick} ref={ref} value={value} readOnly />;
   },
 );
 
