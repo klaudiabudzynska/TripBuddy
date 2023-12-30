@@ -6,6 +6,7 @@
   border-radius: 15px;
   margin: 0 10px 50px 10px;
   max-width: 800px;
+  overflow: hidden;
 
   @media (min-width: $md-breakpoint) {
     margin: 0 auto 50px auto;
@@ -101,5 +102,21 @@
 }
 
 .notesContainer {
+  align-items: center;
+  display: flex;
   margin: 10px 40px 30px;
+}
+
+.noteText {
+  @extend .text;
+
+  width: 100%;
+}
+
+.noteData {
+  @extend .input;
+
+  display: block;
+  flex-grow: 1;
+  width: auto;
 }

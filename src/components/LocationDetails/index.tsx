@@ -10,7 +10,7 @@ import { LocationDetailsType } from './typings.ts';
 import styles from './index.module.scss';
 import {
   addLocationNoteToTripPlan,
-  addLocationToDay, getLSTripPlanById, getLSTripPlanLocationData,
+  addLocationToDay, getLSTripPlanLocationData,
   removeFromTripPlanLS,
   removeLocationFromDay,
 } from '../../helpers/userData.ts';
@@ -44,6 +44,8 @@ const LocationDetails = ({
   allowNotes,
   callback,
 }: LocationDetailsProps) => {
+  const locationDataInTrip = getLSTripPlanLocationData(tripId || 0, locationId || '');
+
   const [locationDetails, setLocationDetails] = useState<LocationDetailsType>({});
   const [isAddingToTripModalOpen, setIsAddingToTripModalOpen] = useState<boolean>(false);
   const [isAddingToDayModalOpen, setIsAddingToDayModalOpen] = useState<boolean>(false);
@@ -51,7 +53,7 @@ const LocationDetails = ({
   const [selectedDayTimestamp, setSelectedDayTimestamp] = useState<number>(
     tripDaysTimestamps ? tripDaysTimestamps[0] : 0,
   );
-  const [note, setNote] = useState<string>('');
+  const [note, setNote] = useState<string>(locationDataInTrip?.notes || '');
   const [isEditNote, setIsEditNote] = useState<boolean>(!note.length);
 
   useEffect(() => {
@@ -128,7 +130,6 @@ const LocationDetails = ({
   };
 
   const cancelNote = () => {
-    const locationDataInTrip = getLSTripPlanLocationData(tripId || 0, locationId || '');
     setNote(locationDataInTrip?.notes || '');
     setIsEditNote(false);
   };
