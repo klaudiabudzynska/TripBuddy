@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import * as classNames from 'classnames';
 import { getLocationDetailsLS, setLocationDetailsLS } from '../../helpers/cache.ts';
 import { callProxy } from '../../helpers/fetch.ts';
@@ -50,6 +50,8 @@ const LocationDetails = ({
   const [selectedDayTimestamp, setSelectedDayTimestamp] = useState<number>(
     tripDaysTimestamps ? tripDaysTimestamps[0] : 0,
   );
+  const [note, setNote] = useState<string>('');
+  const [isEditNote, setIsEditNote] = useState<boolean>(!note.length);
 
   useEffect(() => {
     if (locationId) {
@@ -120,12 +122,25 @@ const LocationDetails = ({
     callback && callback();
   };
 
+  const handleNoteChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(event.target.value);
+  };
+
+  const cancelNote = () => {
+    setNote('');
+    setIsEditNote(false);
+  };
+
+  const saveNote = () => {
+    setIsEditNote(!note.length);
+  };
+
   const { location_id, name, address_obj, description } = locationDetails;
 
   return location_id ? (
     <>
-      <div>
-        <Link to={`/location/${location_id}`} className={styles.container}>
+      <div className={styles.container}>
+        <Link to={`/location/${location_id}`} className={styles.locationContainer}>
           <div className={styles.details}>
             <h2 className={classNames(styles.text, styles.title)}>{name}</h2>
             <span className={classNames(styles.text, styles.location)}>
@@ -169,7 +184,29 @@ const LocationDetails = ({
           <Photos locationId={location_id} />
         </Link>
         {allowNotes &&
-        <p>abc</p>
+        <div className={styles.notesContainer}>
+          {!isEditNote &&
+            <pre
+              className={styles.noteText}
+              onClick={() => setIsEditNote(true)}
+            >
+              {note}
+            </pre>
+          }
+          {isEditNote &&
+            <>
+              <textarea
+                className={styles.noteData}
+                onChange={handleNoteChange}
+                defaultValue={note}
+              />
+              <div className={styles.noteButtons}>
+                <Button value="Save note" onClick={saveNote}/>
+                <Button value="Cancel" style={ButtonStyle.secondary} onClick={cancelNote}/>
+              </div>
+            </>
+          }
+        </div>
         }
       </div>
       <AddToTripModal

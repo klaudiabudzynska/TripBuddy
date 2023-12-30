@@ -14,7 +14,7 @@ type TripItemProps = {
 
 const TripItem = ({
   changeCallback,
-  tripData: { id, name, startDate, endDate, locationsId },
+  tripData: { id, name, startDate, endDate, locationsData },
 }: TripItemProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const startDateFormat = new Date(startDate || 0);
@@ -44,10 +44,10 @@ const TripItem = ({
   return (
     <>
       <Link className={styles.tripItem} to={`/trip-plans/${id}`}>
-        {locationsId.length === 0 ? (
+        {locationsData.length === 0 ? (
           <div className={styles.imagePlaceholder}></div>
         ) : (
-          <Photos locationId={locationsId[0]} addClass={styles.photos} />
+          <Photos locationId={locationsData[0].id} addClass={styles.photos} />
         )}
         <div className={styles.tripData}>
           <h3 className={styles.title}>{name}</h3>

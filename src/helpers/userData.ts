@@ -1,5 +1,3 @@
-import {unmountComponentAtNode} from 'react-dom';
-
 const TRIP_PLANS_KEY = 'TripBuddy_trip_plans';
 
 type DayPlan = {
@@ -7,13 +5,18 @@ type DayPlan = {
   locationsId: string[];
 };
 
+type LocationData = {
+  id: string,
+  notes: string,
+}
+
 export type TripPlanType = {
   id: number;
   name: string;
   startDate?: Date;
   endDate?: Date;
   daysPlan: DayPlan[];
-  locationsId: string[];
+  locationsData: LocationData[];
   notes: string;
 };
 
@@ -52,7 +55,7 @@ export const addTripPlanToLS = ({ name, startDate, endDate }: NewTripData) => {
         startDate,
         endDate,
         daysPlan: createDaysPlanArray(startDate, endDate),
-        locationsId: [],
+        locationsData: [],
         notes: '',
       },
     ]),
@@ -162,17 +165,19 @@ export const removeFromTripPlanLS = (id: number, locationId: string) => {
     return;
   }
 
-  const index = tripPlanToUpdate.locationsId.indexOf(locationId);
+  const index = tripPlanToUpdate.locationsData.findIndex(locationData => {
+    return locationData.id === locationId;
+  });
 
   if (index !== -1) {
-    tripPlanToUpdate.locationsId.splice(index, 1);
+    tripPlanToUpdate.locationsData.splice(index, 1);
 
     const tripPlans: TripPlanType[] = getLSTripPlansList();
     const tripPlanIndex = tripPlans.findIndex((tripPlan: TripPlanType) => {
       return tripPlan.id === id;
     });
 
-    tripPlans[tripPlanIndex].locationsId = tripPlanToUpdate.locationsId;
+    tripPlans[tripPlanIndex].locationsData = tripPlanToUpdate.locationsData;
 
     localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
   }
@@ -184,9 +189,28 @@ export const addLocationToTripPlanLS = (id: number, locationId: string) => {
     return tripPlan.id === id;
   });
 
-  tripPlans[tripPlanIndex]?.locationsId?.push(locationId);
+  tripPlans[tripPlanIndex]?.locationsData?.push({
+    id: locationId,
+    notes: '',
+  });
 
   localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
+};
+
+export const addLocationNoteToTripPlan = (id: number, locationId: string, note: string) => {
+  const tripPlan = getLSTripPlanById(id);
+
+  if (!tripPlan) {
+    return;
+  }
+
+  const locationDataIndex = tripPlan?.locationsData.findIndex(locationData => {
+    return locationData.id === locationId;
+  });
+
+  tripPlan.locationsData[locationDataIndex].notes = note;
+
+  localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlan));
 };
 
 const getLSItem = (key: string) => {
@@ -213,4 +237,12 @@ export const getLSTripDayLocationsId = (id: number, dayTimestamp: number): strin
   });
 
   return dayPlan?.locationsId;
+};
+
+export const getLSTripPlanLocationsId = (id: number): string[] | undefined => {
+  const tripPlan = getLSTripPlanById(id);
+
+  return  tripPlan?.locationsData.map((locationData) => {
+    return locationData.id;
+  });
 };

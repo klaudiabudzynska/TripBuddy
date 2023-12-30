@@ -1,11 +1,18 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import {editTripPlanLS, getLSTripDayLocationsId, getLSTripPlanById, TripPlanType,} from '../../helpers/userData.ts';
+import {
+  editTripPlanLS,
+  getLSTripDayLocationsId,
+  getLSTripPlanById,
+  getLSTripPlanLocationsId,
+  TripPlanType,
+} from '../../helpers/userData.ts';
 import LocationDetails, {ACTIONS} from '../../components/LocationDetails';
 import styles from './index.module.scss';
 import {ChangeEvent, useState} from 'react';
-import {getLocationDetailsLS} from '../../helpers/cache.ts';
+// import {getLocationDetailsLS} from '../../helpers/cache.ts';
 import Button, {ButtonStyle} from '../../components/Button';
 import {formatDate} from '../../helpers/dates.ts';
+// import Map from '../../components/Map';
 
 const TripPlan = () => {
   const { id, dayTimestamp } = useParams();
@@ -19,10 +26,10 @@ const TripPlan = () => {
     parseInt(id || '0'),
     parseInt(dayTimestamp || '0'),
   );
-  const locationsToDisplay = dayTimestamp ? locationIdsByDay : tripPlanData?.locationsId;
+  const locationsToDisplay = dayTimestamp ? locationIdsByDay : getLSTripPlanLocationsId(parseInt(id || '0'));
 
-  const firstLocationId = locationsToDisplay ? locationsToDisplay[0] : '0';
-  const firstLocationData = getLocationDetailsLS(firstLocationId);
+  // const firstLocationId = locationsToDisplay ? locationsToDisplay[0] : '0';
+  // const firstLocationData = getLocationDetailsLS(firstLocationId);
 
   const startDate = new Date(tripPlanData?.startDate || 0);
   const endDate = new Date(tripPlanData?.endDate || 0);
