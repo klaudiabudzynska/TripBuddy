@@ -198,19 +198,22 @@ export const addLocationToTripPlanLS = (id: number, locationId: string) => {
 };
 
 export const addLocationNoteToTripPlan = (id: number, locationId: string, note: string) => {
-  const tripPlan = getLSTripPlanById(id);
+  const tripPlans: TripPlanType[] = getLSTripPlansList();
+  const tripPlanIndex = tripPlans.findIndex((tripPlan: TripPlanType) => {
+    return tripPlan.id === id;
+  });
 
-  if (!tripPlan) {
+  if (!tripPlans[tripPlanIndex]) {
     return;
   }
 
-  const locationDataIndex = tripPlan?.locationsData.findIndex(locationData => {
+  const locationDataIndex = tripPlans[tripPlanIndex].locationsData.findIndex(locationData => {
     return locationData.id === locationId;
   });
 
-  tripPlan.locationsData[locationDataIndex].notes = note;
+  tripPlans[tripPlanIndex].locationsData[locationDataIndex].notes = note;
 
-  localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlan));
+  localStorage.setItem(TRIP_PLANS_KEY, JSON.stringify(tripPlans));
 };
 
 const getLSItem = (key: string) => {
@@ -244,5 +247,12 @@ export const getLSTripPlanLocationsId = (id: number): string[] | undefined => {
 
   return  tripPlan?.locationsData.map((locationData) => {
     return locationData.id;
+  });
+};
+
+export const getLSTripPlanLocationData = (id: number, locationId: string): LocationData | undefined => {
+  const tripPlan = getLSTripPlanById(id);
+  return tripPlan?.locationsData.find(locationData => {
+    return locationData.id === locationId;
   });
 };

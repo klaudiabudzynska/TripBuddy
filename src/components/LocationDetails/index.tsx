@@ -9,7 +9,8 @@ import Photos from './Photos';
 import { LocationDetailsType } from './typings.ts';
 import styles from './index.module.scss';
 import {
-  addLocationToDay,
+  addLocationNoteToTripPlan,
+  addLocationToDay, getLSTripPlanById, getLSTripPlanLocationData,
   removeFromTripPlanLS,
   removeLocationFromDay,
 } from '../../helpers/userData.ts';
@@ -127,11 +128,13 @@ const LocationDetails = ({
   };
 
   const cancelNote = () => {
-    setNote('');
+    const locationDataInTrip = getLSTripPlanLocationData(tripId || 0, locationId || '');
+    setNote(locationDataInTrip?.notes || '');
     setIsEditNote(false);
   };
 
   const saveNote = () => {
+    addLocationNoteToTripPlan(tripId || 0, locationId || '', note);
     setIsEditNote(!note.length);
   };
 
