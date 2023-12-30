@@ -1,7 +1,6 @@
 import {useParams} from 'react-router-dom';
 import {getLocationDetailsLS} from '../../helpers/cache.ts';
 import Map from '../../components/Map';
-import locationDetails from '../../components/LocationDetails';
 import Photos from '../../components/LocationDetails/Photos';
 import {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -63,7 +62,7 @@ const LocationPage = () => {
       locationId={id}
       closeModal={closeAddingToTripDialog}
     />
-    {/*<Map locationData={locationData} locationsToDisplay={[id]} />*/}
+    <Map locationData={locationData} locationsToDisplay={[id]} />
   </div>;
 };
 

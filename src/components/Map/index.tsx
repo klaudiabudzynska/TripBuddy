@@ -14,7 +14,7 @@ const Map = ({locationData, locationsToDisplay}: MapProps) => {
       zoom: 10,
     }}
     mapboxAccessToken={import.meta.env.VITE_MAPS_API_KEY}
-    style={{ width: 600, height: 400, margin: '0 auto 20px auto' }}
+    style={{ width: '100%', maxWidth: 800, height: 400, margin: '0 auto 20px auto' }}
     mapStyle="mapbox://styles/mapbox/streets-v9"
   >
     {locationsToDisplay?.map((locationId, key) => {
