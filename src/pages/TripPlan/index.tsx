@@ -14,7 +14,7 @@ const TripPlan = () => {
     getLSTripPlanById(parseInt(id || '0')),
   );
   const [note, setNote] = useState<string>(tripPlanData?.notes || '');
-  const [isEditNote, setIsEditNote] = useState<boolean>(false);
+  const [isEditNote, setIsEditNote] = useState<boolean>(!note.length);
   const locationIdsByDay = getLSTripDayLocationsId(
     parseInt(id || '0'),
     parseInt(dayTimestamp || '0'),
@@ -65,7 +65,7 @@ const TripPlan = () => {
       },
       note
     );
-    setIsEditNote(false);
+    setIsEditNote(!note.length);
   };
 
   const cancelNote = () => {

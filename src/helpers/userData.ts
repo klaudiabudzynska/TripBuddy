@@ -1,3 +1,5 @@
+import {unmountComponentAtNode} from 'react-dom';
+
 const TRIP_PLANS_KEY = 'TripBuddy_trip_plans';
 
 type DayPlan = {
@@ -126,7 +128,7 @@ export const editTripPlanLS = (id: number, { name, startDate, endDate }: NewTrip
     return;
   }
 
-  const newNotes = notes ? notes: tripPlans[index].notes;
+  const newNotes = notes !== undefined ? notes: tripPlans[index].notes;
 
   tripPlans[index] = {
     ...tripPlans[index],
